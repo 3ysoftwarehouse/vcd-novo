@@ -4,9 +4,10 @@ from django.core.urlresolvers import reverse_lazy
 from django.db.models import F
 
 from djangosige.apps.base.custom_views import CustomCreateView, CustomListView, CustomUpdateView
-from djangosige.apps.cadastro.forms import ProdutoForm, CategoriaForm, UnidadeForm, MarcaForm
-from djangosige.apps.cadastro.models import Produto, Categoria, Unidade, Marca, Fornecedor
+from djangosige.apps.cadastro.forms import ProdutoForm, CategoriaForm, UnidadeForm, MarcaForm,OpcionalForm, AcomodacaoForm, CidadeForm
+from djangosige.apps.cadastro.models import Produto, Categoria, Unidade, Marca, Fornecedor, Cidade, Opcional, Acomodacao
 from djangosige.apps.estoque.models import ItensMovimento, EntradaEstoque, ProdutoEstocado
+from djangosige.apps.cadastro.forms import ProdutoAcomodacaoFormSet, ProdutoCidadeFormSet
 
 from datetime import datetime
 
@@ -23,8 +24,10 @@ class AdicionarProdutoView(CustomCreateView):
 
     def get_context_data(self, **kwargs):
         context = super(AdicionarProdutoView, self).get_context_data(**kwargs)
-        context['title_complete'] = 'CADASTRAR PRODUTO'
+        context['title_complete'] = 'CADASTRAR PACOTE'
         context['return_url'] = reverse_lazy('cadastro:listaprodutosview')
+        context['acomodacao_form'] = ProdutoAcomodacaoFormSet(prefix='acomodacao_form')
+        context['cidade_form'] = ProdutoCidadeFormSet(prefix='cidade_form')
         return context
 
     def get(self, request, *args, **kwargs):
@@ -53,6 +56,10 @@ class AdicionarProdutoView(CustomCreateView):
 
         form_class = self.get_form_class()
         form = self.get_form(form_class)
+        acomodacao_form = ProdutoAcomodacaoFormSet(request.POST,prefix='acomodacao_form')
+        cidade_form = ProdutoCidadeFormSet(request.POST,prefix='cidade_form')
+
+        formsets = [acomodacao_form, cidade_form]
 
         if form.is_valid():
             self.object = form.save(commit=False)
@@ -96,7 +103,17 @@ class AdicionarProdutoView(CustomCreateView):
                 prod_estocado.save()
 
             else:
-                self.object.save()
+                if (all(formset.is_valid() for formset in formsets) and
+                        acomodacao_form.is_valid() and
+                        cidade_form.is_valid()):
+                    self.object.save()
+                    form.save_m2m()
+
+                    acomodacao_form.instance = self.object
+                    acom = acomodacao_form.save()
+
+                    cidade_form.instance = self.object
+                    cid = cidade_form.save()
 
             return self.form_valid(form)
 
@@ -112,7 +129,7 @@ class ProdutosListView(CustomListView):
 
     def get_context_data(self, **kwargs):
         context = super(ProdutosListView, self).get_context_data(**kwargs)
-        context['title_complete'] = 'PRODUTOS CADASTRADOS'
+        context['title_complete'] = 'PACOTES CADASTRADOS'
         context['add_url'] = reverse_lazy('cadastro:addprodutoview')
         return context
 
@@ -144,6 +161,8 @@ class EditarProdutoView(CustomUpdateView):
     def get_context_data(self, **kwargs):
         context = super(EditarProdutoView, self).get_context_data(**kwargs)
         context['return_url'] = reverse_lazy('cadastro:listaprodutosview')
+        context['acomodacao_form'] = ProdutoAcomodacaoFormSet(instance=self.object,prefix='acomodacao_form')
+        context['cidade_form'] = ProdutoCidadeFormSet(instance=self.object,prefix='cidade_form')
         return context
 
     def post(self, request, *args, **kwargs):
@@ -169,9 +188,23 @@ class EditarProdutoView(CustomUpdateView):
 
         form_class = self.get_form_class()
         form = form_class(request.POST, instance=self.object)
+        acomodacao_form = ProdutoAcomodacaoFormSet(request.POST, prefix='acomodacao_form', instance=self.object)
+        cidade_form = ProdutoCidadeFormSet(request.POST, prefix='cidade_form', instance=self.object)
+        formsets = [acomodacao_form, cidade_form]
 
         if form.is_valid():
-            self.object = form.save()
+            self.object = form.save(commit=False)
+            if (all(formset.is_valid() for formset in formsets) and
+                    acomodacao_form.is_valid() and
+                    cidade_form.is_valid()):
+                self.object.save()
+                form.save_m2m()
+
+                acomodacao_form.instance = self.object
+                acom = acomodacao_form.save()
+
+                cidade_form.instance = self.object
+                cid = cidade_form.save()
             return self.form_valid(form)
 
         return self.form_invalid(form)
@@ -262,3 +295,68 @@ class EditarMarcaView(EditarOutrosBaseView):
     model = Marca
     success_url = reverse_lazy('cadastro:listamarcasview')
     permission_codename = 'change_marca'
+
+
+class AdicionarCidadeView(AdicionarOutrosBaseView):
+    form_class = CidadeForm
+    model = Cidade
+    success_url = reverse_lazy('cadastro:addcidadeview')
+    permission_codename = 'add_cidade'
+
+
+class CidadesListView(CustomListView):
+    model = Cidade
+    template_name = 'cadastro/produto/cidade_list.html'
+    context_object_name = 'all_cidades'
+    success_url = reverse_lazy('cadastro:listacidadesview')
+    permission_codename = 'view_cidade'
+
+
+class EditarCidadeView(EditarOutrosBaseView):
+    form_class = CidadeForm
+    model = Cidade
+    success_url = reverse_lazy('cadastro:listacidadesview')
+    permission_codename = 'edit_cidade'
+
+
+class AdicionarOpcionalView(AdicionarOutrosBaseView):
+    form_class = OpcionalForm
+    model = Opcional
+    success_url = reverse_lazy('cadastro:addopcionalview')
+    permission_codename = 'add_opcional'
+
+
+class OpcionalListView(CustomListView):
+    model = Opcional
+    template_name = 'cadastro/produto/opcional_list.html'
+    context_object_name = 'all_opcionais'
+    success_url = reverse_lazy('cadastro:listaopcionalview')
+    permission_codename = 'view_opcional'
+
+
+class EditarOpcionalView(EditarOutrosBaseView):
+    form_class = OpcionalForm
+    model = Opcional
+    success_url = reverse_lazy('cadastro:listaopcionalview')
+    permission_codename = 'edit_opcional'
+
+class AdicionarAcomodacaoView(AdicionarOutrosBaseView):
+    form_class = AcomodacaoForm
+    model = Acomodacao
+    success_url = reverse_lazy('cadastro:addacomodacaoview')
+    permission_codename = 'add_acomodacao'
+
+
+class AcomodacaoListView(CustomListView):
+    model = Acomodacao
+    template_name = 'cadastro/produto/acomodacao_list.html'
+    context_object_name = 'all_acomodacao'
+    success_url = reverse_lazy('cadastro:listaacomodacaoview')
+    permission_codename = 'view_opcional'
+
+
+class EditarAcomodacaoView(EditarOutrosBaseView):
+    form_class = AcomodacaoForm
+    model = Acomodacao
+    success_url = reverse_lazy('cadastro:listaacomodacaoview')
+    permission_codename = 'edit_opcional'

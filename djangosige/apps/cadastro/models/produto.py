@@ -3,6 +3,7 @@
 from django.db import models
 from django.core.validators import MinValueValidator
 from decimal import Decimal
+from djangosige.apps.financeiro.models.moeda import Moeda
 
 
 ORIGEM_ESCOLHAS = (
@@ -86,11 +87,12 @@ class Unidade(models.Model):
 
 class Produto(models.Model):
     # Dados gerais
-    codigo = models.CharField(max_length=15)
+    codigo = models.CharField(max_length=15, null=True, blank=True)
     codigo_barras = models.CharField(
         max_length=16, null=True, blank=True)  # GTIN/EAN
     descricao = models.CharField(max_length=255)
     categoria = models.ForeignKey(Categoria, null=True, blank=True)
+    moeda = models.ForeignKey(Moeda, null=True, blank=True)
     marca = models.ForeignKey(Marca, null=True, blank=True)
     unidade = models.ForeignKey(Unidade, null=True, blank=True)
     custo = models.DecimalField(max_digits=16, decimal_places=2, validators=[
@@ -98,6 +100,10 @@ class Produto(models.Model):
     venda = models.DecimalField(max_digits=16, decimal_places=2, validators=[
                                 MinValueValidator(Decimal('0.00'))], default=Decimal('0.00'))
     inf_adicionais = models.CharField(max_length=255, null=True, blank=True)
+    day_by_day = models.CharField(max_length=255, null=True, blank=True)
+    produto_desc = models.CharField(max_length=255, null=True, blank=True)
+
+
 
     # Fiscal
     ncm = models.CharField(max_length=11, null=True,
@@ -117,6 +123,11 @@ class Produto(models.Model):
     estoque_atual = models.DecimalField(max_digits=16, decimal_places=2, validators=[
                                         MinValueValidator(Decimal('0.00'))], default=Decimal('0.00'))
     controlar_estoque = models.BooleanField(default=True)
+    opcionais = models.ManyToManyField('Opcional', null=True, blank=True)
+    cidades = models.ManyToManyField('Cidade', through='ProdutoCidade', through_fields=('produto','cidade'),
+                                     null=True, blank=True)
+    acomodacoes = models.ManyToManyField('Acomodacao', through='ProdutoAcomodacao', through_fields=('produto','acomodacao'),
+                                     null=True, blank=True)
 
     class Meta:
         verbose_name = "Produto"
@@ -150,3 +161,43 @@ class Produto(models.Model):
     def __str__(self):
         s = u'%s' % (self.descricao)
         return s
+
+
+class ProdutoCidade(models.Model):
+    produto = models.ForeignKey(Produto)
+    cidade = models.ForeignKey('Cidade')
+    quantidade = models.IntegerField()
+
+
+    def __str__(self):
+        return self.id
+
+
+class ProdutoAcomodacao(models.Model):
+    produto = models.ForeignKey(Produto)
+    acomodacao = models.ForeignKey('Acomodacao')
+    preco = models.DecimalField(max_digits=14, decimal_places=2, blank=True, null=True)
+
+    def __str__(self):
+        return self.id
+
+
+class Cidade(models.Model):
+    descricao = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.descricao
+
+
+class Opcional(models.Model):
+    descricao = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.descricao
+
+
+class Acomodacao(models.Model):
+    descricao = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.descricao

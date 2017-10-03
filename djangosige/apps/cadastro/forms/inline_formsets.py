@@ -3,8 +3,10 @@
 from django import forms
 from django.forms import inlineformset_factory
 from django.utils.translation import ugettext_lazy as _
+from decimal import Decimal
 
-from djangosige.apps.cadastro.models import Pessoa, Endereco, Telefone, Email, Site, Banco, Documento
+
+from djangosige.apps.cadastro.models import Pessoa, Endereco, Telefone, Email, Site, Banco, Documento, Produto, ProdutoCidade, ProdutoAcomodacao, Cidade, Acomodacao
 
 
 class EnderecoForm(forms.ModelForm):
@@ -117,6 +119,40 @@ class DocumentoForm(forms.ModelForm):
         }
 
 
+class ProdutoCidadeForm(forms.ModelForm):
+    quantidade = forms.IntegerField(widget=forms.TextInput(
+        attrs={'class': 'form-control number'}), initial=1, label='Quantidade',required=False)
+
+    class Meta:
+        model = ProdutoCidade
+        fields = ('cidade','quantidade',)
+        labels = {
+            'cidade': _('Cidade'),
+        }
+        widgets = {
+            'cidade': forms.Select(attrs={'class': 'form-control'}),
+        }
+
+
+class ProdutoAcomodacaoForm(forms.ModelForm):
+    preco = forms.DecimalField(max_digits=16, decimal_places=2, localize=True, widget=forms.TextInput(
+        attrs={'class': 'form-control decimal-mask', 'placeholder': 'R$ 0,00'}), initial=Decimal('0.00'), label='Preço',
+                               required=False)
+
+    class Meta:
+        model = ProdutoAcomodacao
+        fields = ('acomodacao','preco',)
+        labels = {
+            'acomodacao': _('Acomodação'),
+        }
+        widgets = {
+            'acomodacao': forms.Select(attrs={'class': 'form-control'}),
+        }
+
+ProdutoAcomodacaoFormSet = inlineformset_factory(
+    Produto, ProdutoAcomodacao, form=ProdutoAcomodacaoForm, extra=1, can_delete=True)
+ProdutoCidadeFormSet = inlineformset_factory(
+    Produto, ProdutoCidade, form=ProdutoCidadeForm, extra=1, can_delete=True)
 EnderecoFormSet = inlineformset_factory(
     Pessoa, Endereco, form=EnderecoForm, extra=1, can_delete=True)
 TelefoneFormSet = inlineformset_factory(

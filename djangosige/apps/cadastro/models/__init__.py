@@ -6,4 +6,4 @@ from .cliente import Cliente
 from .fornecedor import Fornecedor
 from .transportadora import Transportadora, Veiculo
 
-from .produto import Produto, Unidade, Marca, Categoria
+from .produto import Produto, Unidade, Marca, Categoria, Cidade, ProdutoAcomodacao, ProdutoCidade, Opcional, Acomodacao

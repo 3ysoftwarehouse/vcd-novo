@@ -6,7 +6,7 @@
   <div class="container-fluid lista">
   
     <div class="title-header">
-      <h2>CATEGORIAS DE PRODUTOS</h2>
+      <h2>EXCURSÕES</h2>
     </div>
     
     {% include 'base/msg_sucesso.html' %}
@@ -17,7 +17,7 @@
           {% csrf_token %}
           <div class="header">
             <h2>
-              CATEGORIAS CADASTRADAS
+              EXCURSÕES CADASTRADAS
             </h2>
               <div class="header-btn">
                 <a href="{% url 'cadastro:addcategoriaview' %}" class="btn btn-success popup" title="Adicionar categoria"><i class="material-icons">&#xE148;</i><span> ADICIONAR</span></a>

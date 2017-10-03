@@ -23,7 +23,7 @@
     <script src="{% static 'js/jquery/jquery-3.0.0.min.js' %}"></script>
 
 
-    <title>DjangoSIGE | {%block title%}Bem-vindo{%endblock%}</title>
+    <title>VCD | {%block title%}Bem-vindo{%endblock%}</title>
 </head>
 
 <body class="{%block body_class%}theme{%endblock%}">
@@ -55,7 +55,7 @@
                 <a href="javascript:void(0);" class="bars"></a>
                 <div class="navbar-brand">
                 	<!-- Main icone, data e horario -->
-                    <span><a href="{% url 'base:index' %}">Django<b style="color:#e76d64;">SIGE</b></a></span>
+                    <span><a href="{% url 'base:index' %}">VCD<b style="color:#e76d64;">Sistema</b></a></span>
                     <!--<span style="padding-left:30px;">Bem-vindo(a), <strong class="username-strong"></strong></span>-->
                     <span style="padding-left:25px;"><i class="material-icons">&#xE8DF;</i></span>
                     <span>{%now "l, j/m/Y"%}</span>
@@ -70,7 +70,7 @@
             <div class="collapse navbar-collapse" id="navbar-collapse">
                 <ul class="nav navbar-nav navbar-right">
 
-                    <li><a href="https://github.com/thiagopena/djangoSIGE" title="Ajuda" ><i class="material-icons">&#xE8FD;</i></a></li>
+                    <li><a title="Ajuda" ><i class="material-icons">&#xE8FD;</i></a></li>
                     <li><a id="logout-btn" href="{% url 'login:logoutview' %}" title="Sair" ><i class="material-icons">&#xE879;</i></a></li>
                     
                 </ul>
@@ -141,7 +141,7 @@
                             </li>
                             <li>
                                 <a href="{% url 'cadastro:listaprodutosview' %}">
-                                    Produtos
+                                    Pacotes
                                 </a>
                             </li>
                             <!--
@@ -153,14 +153,14 @@
                             -->
                             <li>
                                 <a href="{% url 'cadastro:listaempresasview' %}">
-                                    Empresas
+                                    Agências
                                 </a>
                             </li>
-                            <li>
-                                <a href="{% url 'cadastro:listatransportadorasview' %}">
-                                    Transportadoras
-                                </a>
-                            </li>
+                            <!--<li>-->
+                                <!--<a href="{% url 'cadastro:listatransportadorasview' %}">-->
+                                    <!--Transportadoras-->
+                                <!--</a>-->
+                            <!--</li>-->
                             <li>
                                 <a href="javascript:void(0);" class="menu-toggle">
                                     Outros
@@ -168,17 +168,17 @@
                                 <ul class="ml-menu">
                                     <li>
                                         <a href="{% url 'cadastro:listacategoriasview' %}">
-                                            Categorias
+                                            Excursões
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="{% url 'cadastro:listaunidadesview' %}">
-                                            Unidades
+                                        <a href="{% url 'cadastro:listacidadesview' %}">
+                                            Cidades
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="{% url 'cadastro:listamarcasview' %}">
-                                            Marcas
+                                        <a href="{% url 'cadastro:listaacomodacaoview' %}">
+                                            Acomodação
                                         </a>
                                     </li>
                                 </ul>
@@ -214,105 +214,105 @@
                         </ul>
                     </li>
 
-                    <li>
-                        <a href="javascript:void(0);" class="menu-toggle">
-                            <i class="material-icons">&#xE8CC;</i>
-                            <span>Compras</span>
-                        </a>
-                        <ul class="ml-menu">
-                            <li>
-                                <a href="{% url 'compras:listaorcamentocompraview' %}">
-                                    Orçamentos de Compra
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{% url 'compras:listapedidocompraview' %}">
-                                    Pedidos de Compra
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{% url 'vendas:listacondicaopagamentoview' %}">
-                                    Condições de pagamento
-                                </a>
-                            </li>
+                    <!--<li>-->
+                        <!--<a href="javascript:void(0);" class="menu-toggle">-->
+                            <!--<i class="material-icons">&#xE8CC;</i>-->
+                            <!--<span>Compras</span>-->
+                        <!--</a>-->
+                        <!--<ul class="ml-menu">-->
+                            <!--<li>-->
+                                <!--<a href="{% url 'compras:listaorcamentocompraview' %}">-->
+                                    <!--Orçamentos de Compra-->
+                                <!--</a>-->
+                            <!--</li>-->
+                            <!--<li>-->
+                                <!--<a href="{% url 'compras:listapedidocompraview' %}">-->
+                                    <!--Pedidos de Compra-->
+                                <!--</a>-->
+                            <!--</li>-->
+                            <!--<li>-->
+                                <!--<a href="{% url 'vendas:listacondicaopagamentoview' %}">-->
+                                    <!--Condições de pagamento-->
+                                <!--</a>-->
+                            <!--</li>-->
 
-                        </ul>
-                    </li>
+                        <!--</ul>-->
+                    <!--</li>-->
 
 
-                    <li>
-                        <a href="javascript:void(0);" class="menu-toggle">
-                            <i class="material-icons">&#xE8B0;</i>
-                            <span>Fiscal</span>
-                        </a>
-                        <ul class="ml-menu">
-                            <li>
-                                <a href="javascript:void(0);" class="menu-toggle">
-                                    Nota Fiscal
-                                </a>
-                                <ul class="ml-menu">
-                                    <li>
-                                        <a href="{% url 'fiscal:listanotafiscalsaidaview' %}">
-                                            Notas Fiscais
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="{% url 'fiscal:listanotafiscalentradaview' %}">
-                                            Notas de Fornecedores
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="{% url 'fiscal:configuracaonotafiscal' %}">
-                                            Configuração NF-e
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="{% url 'fiscal:listanaturezaoperacaoview' %}">
-                                    Natureza da operação
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{% url 'fiscal:listagrupofiscalview' %}">
-                                    Grupo fiscal
-                                </a>
-                            </li>
-                            <li>
-                                <a href="javascript:void(0);" class="menu-toggle">
-                                    Comunicação SEFAZ
-                                </a>
-                                <ul class="ml-menu">
-                                    <li>
-                                        <a href="{% url 'fiscal:consultarcadastro' %}">
-                                            Consultar cadastro
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="{% url 'fiscal:inutilizarnotas' %}">
-                                            Inutilizar notas
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="{% url 'fiscal:consultarnota' %}">
-                                            Consultar nota
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="{% url 'fiscal:baixarnota' %}">
-                                            Baixar nota
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="{% url 'fiscal:manifestacaodestinatario' %}">
-                                            Manifestação do destinatário
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
+                    <!--<li>-->
+                        <!--<a href="javascript:void(0);" class="menu-toggle">-->
+                            <!--<i class="material-icons">&#xE8B0;</i>-->
+                            <!--<span>Fiscal</span>-->
+                        <!--</a>-->
+                        <!--<ul class="ml-menu">-->
+                            <!--<li>-->
+                                <!--<a href="javascript:void(0);" class="menu-toggle">-->
+                                    <!--Nota Fiscal-->
+                                <!--</a>-->
+                                <!--<ul class="ml-menu">-->
+                                    <!--<li>-->
+                                        <!--<a href="{% url 'fiscal:listanotafiscalsaidaview' %}">-->
+                                            <!--Notas Fiscais-->
+                                        <!--</a>-->
+                                    <!--</li>-->
+                                    <!--<li>-->
+                                        <!--<a href="{% url 'fiscal:listanotafiscalentradaview' %}">-->
+                                            <!--Notas de Fornecedores-->
+                                        <!--</a>-->
+                                    <!--</li>-->
+                                    <!--<li>-->
+                                        <!--<a href="{% url 'fiscal:configuracaonotafiscal' %}">-->
+                                            <!--Configuração NF-e-->
+                                        <!--</a>-->
+                                    <!--</li>-->
+                                <!--</ul>-->
+                            <!--</li>-->
+                            <!--<li>-->
+                                <!--<a href="{% url 'fiscal:listanaturezaoperacaoview' %}">-->
+                                    <!--Natureza da operação-->
+                                <!--</a>-->
+                            <!--</li>-->
+                            <!--<li>-->
+                                <!--<a href="{% url 'fiscal:listagrupofiscalview' %}">-->
+                                    <!--Grupo fiscal-->
+                                <!--</a>-->
+                            <!--</li>-->
+                            <!--<li>-->
+                                <!--<a href="javascript:void(0);" class="menu-toggle">-->
+                                    <!--Comunicação SEFAZ-->
+                                <!--</a>-->
+                                <!--<ul class="ml-menu">-->
+                                    <!--<li>-->
+                                        <!--<a href="{% url 'fiscal:consultarcadastro' %}">-->
+                                            <!--Consultar cadastro-->
+                                        <!--</a>-->
+                                    <!--</li>-->
+                                    <!--<li>-->
+                                        <!--<a href="{% url 'fiscal:inutilizarnotas' %}">-->
+                                            <!--Inutilizar notas-->
+                                        <!--</a>-->
+                                    <!--</li>-->
+                                    <!--<li>-->
+                                        <!--<a href="{% url 'fiscal:consultarnota' %}">-->
+                                            <!--Consultar nota-->
+                                        <!--</a>-->
+                                    <!--</li>-->
+                                    <!--<li>-->
+                                        <!--<a href="{% url 'fiscal:baixarnota' %}">-->
+                                            <!--Baixar nota-->
+                                        <!--</a>-->
+                                    <!--</li>-->
+                                    <!--<li>-->
+                                        <!--<a href="{% url 'fiscal:manifestacaodestinatario' %}">-->
+                                            <!--Manifestação do destinatário-->
+                                        <!--</a>-->
+                                    <!--</li>-->
+                                <!--</ul>-->
+                            <!--</li>-->
 
-                        </ul>
-                    </li>
+                        <!--</ul>-->
+                    <!--</li>-->
 
                     <li>
                         <a href="javascript:void(0);" class="menu-toggle">
@@ -376,51 +376,51 @@
                         </ul>
                     </li>
 
-                    <li>
-                        <a href="javascript:void(0);" class="menu-toggle">
-                            <i class="material-icons">&#xE1BD;</i>
-                            <span>Estoque</span>
-                        </a>
-                        <ul class="ml-menu">
-                            <li>
-                                <a href="{% url 'estoque:consultaestoqueview' %}">
-                                    Consultar estoque
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{% url 'estoque:listalocalview' %}">
-                                    Locais de estoque
-                                </a>
-                            </li>
-                            <li>
-                                <a href="javascript:void(0);" class="menu-toggle">
-                                    Movimentações de estoque
-                                </a>
-                                <ul class="ml-menu">
-                                    <li>
-                                        <a href="{% url 'estoque:listamovimentoestoqueview' %}">
-                                            Todas movimentações
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="{% url 'estoque:listaentradasestoqueview' %}">
-                                            Entradas
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="{% url 'estoque:listasaidasestoqueview' %}">
-                                            Saídas
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="{% url 'estoque:listatransferenciasestoqueview' %}">
-                                            Transferências
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
+                    <!--<li>-->
+                        <!--<a href="javascript:void(0);" class="menu-toggle">-->
+                            <!--<i class="material-icons">&#xE1BD;</i>-->
+                            <!--<span>Estoque</span>-->
+                        <!--</a>-->
+                        <!--<ul class="ml-menu">-->
+                            <!--<li>-->
+                                <!--<a href="{% url 'estoque:consultaestoqueview' %}">-->
+                                    <!--Consultar estoque-->
+                                <!--</a>-->
+                            <!--</li>-->
+                            <!--<li>-->
+                                <!--<a href="{% url 'estoque:listalocalview' %}">-->
+                                    <!--Locais de estoque-->
+                                <!--</a>-->
+                            <!--</li>-->
+                            <!--<li>-->
+                                <!--<a href="javascript:void(0);" class="menu-toggle">-->
+                                    <!--Movimentações de estoque-->
+                                <!--</a>-->
+                                <!--<ul class="ml-menu">-->
+                                    <!--<li>-->
+                                        <!--<a href="{% url 'estoque:listamovimentoestoqueview' %}">-->
+                                            <!--Todas movimentações-->
+                                        <!--</a>-->
+                                    <!--</li>-->
+                                    <!--<li>-->
+                                        <!--<a href="{% url 'estoque:listaentradasestoqueview' %}">-->
+                                            <!--Entradas-->
+                                        <!--</a>-->
+                                    <!--</li>-->
+                                    <!--<li>-->
+                                        <!--<a href="{% url 'estoque:listasaidasestoqueview' %}">-->
+                                            <!--Saídas-->
+                                        <!--</a>-->
+                                    <!--</li>-->
+                                    <!--<li>-->
+                                        <!--<a href="{% url 'estoque:listatransferenciasestoqueview' %}">-->
+                                            <!--Transferências-->
+                                        <!--</a>-->
+                                    <!--</li>-->
+                                <!--</ul>-->
+                            <!--</li>-->
+                        <!--</ul>-->
+                    <!--</li>-->
 
                 </ul>
             </div>
@@ -428,7 +428,7 @@
             <!-- Footer -->
             <div class="legal">
                 <div class="copyright">
-                    &copy; 2017 <a href=""> DjangoSIGE</a>.
+                    &copy; 2017 <a href=""> VCD Sistema</a>.
                 </div>
                 <div class="version">
                     <b>Versão: </b> {{versao}}

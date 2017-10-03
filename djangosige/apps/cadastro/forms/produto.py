@@ -3,7 +3,7 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
-from djangosige.apps.cadastro.models import Produto, Unidade, Marca, Categoria, Fornecedor
+from djangosige.apps.cadastro.models import Produto, Unidade, Marca, Categoria, Fornecedor, Opcional, Cidade, Acomodacao
 from djangosige.apps.estoque.models import LocalEstoque
 
 from decimal import Decimal
@@ -22,6 +22,8 @@ class ProdutoForm(forms.ModelForm):
         attrs={'class': 'form-control'}), label='Fornecedor', required=False)
     local_dest = forms.ModelChoiceField(queryset=LocalEstoque.objects.all(), widget=forms.Select(
         attrs={'class': 'form-control'}), empty_label=None, label='Localização do estoque de destino', required=False)
+    opcionais = forms.ModelMultipleChoiceField(queryset=Opcional.objects.all(), widget=forms.SelectMultiple(
+        attrs={'class': 'form-control'}), label='Opcionais', required=False)
 
     def __init__(self, *args, **kwargs):
         super(ProdutoForm, self).__init__(*args, **kwargs)
@@ -31,17 +33,20 @@ class ProdutoForm(forms.ModelForm):
 
     class Meta:
         model = Produto
-        fields = ('codigo', 'codigo_barras', 'descricao', 'categoria', 'marca', 'unidade', 'ncm', 'venda', 'custo', 'inf_adicionais',
-                  'origem', 'cest', 'cfop_padrao', 'grupo_fiscal', 'estoque_minimo', 'controlar_estoque',)
+        fields = ('codigo', 'codigo_barras', 'descricao','produto_desc','opcionais', 'moeda', 'categoria', 'marca', 'unidade', 'ncm', 'venda', 'custo', 'inf_adicionais',
+                  'origem', 'cest', 'cfop_padrao', 'grupo_fiscal', 'estoque_minimo', 'controlar_estoque','day_by_day')
         widgets = {
             'codigo': forms.TextInput(attrs={'class': 'form-control'}),
             'codigo_barras': forms.TextInput(attrs={'class': 'form-control'}),
             'descricao': forms.TextInput(attrs={'class': 'form-control'}),
             'categoria': forms.Select(attrs={'class': 'form-control'}),
+            'moeda': forms.Select(attrs={'class': 'form-control'}),
             'marca': forms.Select(attrs={'class': 'form-control'}),
             'unidade': forms.Select(attrs={'class': 'form-control'}),
             'ncm': forms.TextInput(attrs={'class': 'form-control'}),
             'inf_adicionais': forms.Textarea(attrs={'class': 'form-control'}),
+            'day_by_day': forms.Textarea(attrs={'class': 'form-control'}),
+            'produto_desc': forms.Textarea(attrs={'class': 'form-control'}),
             'origem': forms.Select(attrs={'class': 'form-control'}),
             'cest': forms.TextInput(attrs={'class': 'form-control'}),
             'cfop_padrao': forms.Select(attrs={'class': 'form-control'}),
@@ -52,12 +57,15 @@ class ProdutoForm(forms.ModelForm):
         labels = {
             'codigo': _('Código'),
             'codigo_barras': _('Código de Barras (GTIN/EAN)'),
-            'descricao': _('Descrição'),
-            'categoria': _('Categoria'),
+            'descricao': _('Nome'),
+            'categoria': _('Excursão'),
             'marca': _('Marca'),
+            'moeda': _('Moeda'),
             'unidade': _('Unidade'),
             'ncm': _('NCM'),
             'inf_adicionais': _('Informações adicionais'),
+            'produto_desc': _('Descrição do Pacote'),
+            'day_by_day': _('Day By Day'),
             'origem': _('Origem'),
             'cest': _('CEST'),
             'cfop_padrao': _('CFOP (Padrão)'),
@@ -105,4 +113,42 @@ class UnidadeForm(forms.ModelForm):
         labels = {
             'unidade_desc': _('Nome descritivo'),
             'sigla_unidade': _('Sigla'),
+        }
+
+class OpcionalForm(forms.ModelForm):
+
+    class Meta:
+        model = Opcional
+        fields = ('descricao',)
+        widgets = {
+            'descricao': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+        labels = {
+            'descricao': _('Descrição'),
+        }
+
+
+class CidadeForm(forms.ModelForm):
+
+    class Meta:
+        model = Cidade
+        fields = ('descricao',)
+        widgets = {
+            'descricao': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+        labels = {
+            'descricao': _('Descrição'),
+        }
+
+
+class AcomodacaoForm(forms.ModelForm):
+
+    class Meta:
+        model = Acomodacao
+        fields = ('descricao',)
+        widgets = {
+            'descricao': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+        labels = {
+            'descricao': _('Descrição'),
         }

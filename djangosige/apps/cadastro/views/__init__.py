@@ -7,5 +7,7 @@ from .transportadora import AdicionarTransportadoraView, TransportadorasListView
 from .produto import (AdicionarProdutoView, ProdutosListView, ProdutosBaixoEstoqueListView, EditarProdutoView,
                       AdicionarCategoriaView, CategoriasListView, EditarCategoriaView,
                       AdicionarUnidadeView, UnidadesListView, EditarUnidadeView,
-                      AdicionarMarcaView, MarcasListView, EditarMarcaView)
+                      AdicionarMarcaView, MarcasListView, EditarMarcaView, AdicionarCidadeView, CidadesListView,
+                      EditarCidadeView, OpcionalListView, AdicionarOpcionalView, EditarOpcionalView,
+                      EditarAcomodacaoView, AcomodacaoListView, AdicionarAcomodacaoView)
 from .ajax_views import InfoCliente, InfoFornecedor, InfoEmpresa, InfoTransportadora, InfoProduto

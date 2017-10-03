@@ -97,6 +97,39 @@ urlpatterns = [
     url(r'outros/editarmarca/(?P<pk>[0-9]+)/$',
         views.EditarMarcaView.as_view(), name='editarmarcaview'),
 
+    # Cidades
+    #/cadastro/outros/adicionarcidade/
+    url(r'outros/adicionarcidade/$',
+        views.AdicionarCidadeView.as_view(), name='addcidadeview'),
+    #/cadastro/outros/listacidades/
+    url(r'outros/listacidades/$',
+        views.CidadesListView.as_view(), name='listacidadesview'),
+    #/cadastro/outros/editarcidade/
+    url(r'outros/editarcidade/(?P<pk>[0-9]+)/$',
+        views.EditarCidadeView.as_view(), name='editarcidadeview'),
+
+    # Opcionais
+    #/cadastro/outros/adicionarcidade/
+    url(r'outros/adicionaropcional/$',
+        views.AdicionarOpcionalView.as_view(), name='addopcionalview'),
+    #/cadastro/outros/listacidades/
+    url(r'outros/listaopcional/$',
+        views.OpcionalListView.as_view(), name='listaopcionalview'),
+    #/cadastro/outros/editarcidade/
+    url(r'outros/editaropcional/(?P<pk>[0-9]+)/$',
+        views.EditarOpcionalView.as_view(), name='editaropcionalview'),
+
+    # Acomodações
+    # /cadastro/outros/adicionaracomodacao/
+    url(r'outros/adicionaracomodacao/$',
+        views.AdicionarAcomodacaoView.as_view(), name='addacomodacaoview'),
+    # /cadastro/outros/listaacomodacao/
+    url(r'outros/listaacomodacao/$',
+        views.AcomodacaoListView.as_view(), name='listaacomodacaoview'),
+    # /cadastro/outros/editaracomodacao/
+    url(r'outros/editaracomodacao/(?P<pk>[0-9]+)/$',
+        views.EditarAcomodacaoView.as_view(), name='editaracomodacaoview'),
+
     # Informacoes de dada empresa (Ajax request)
     url(r'infoempresa/$', views.InfoEmpresa.as_view(), name='infoempresa'),
     url(r'infofornecedor/$', views.InfoFornecedor.as_view(), name='infofornecedor'),

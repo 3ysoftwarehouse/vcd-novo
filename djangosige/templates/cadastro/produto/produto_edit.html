@@ -55,6 +55,29 @@
 
                   </div>
                   <!-- #Tab fiscal -->
+                  <!-- Tab Cidades -->
+                  <div role="tabpanel" class="tab-pane formset-tab" id="tab_cidade">
+                      <div class="col-sm-12">
+                          <div class="form-group">
+                              <div class="form-line">
+                                  <label>{{form.day_by_day.label}}</label>
+                                  {% if form.day_by_day.errors %}<label class="error">{% for error in form.day_by_day.errors %}{{error}}{% endfor %}</label>{% endif %}
+                                  {{form.day_by_day}}
+                              </div>
+                          </div>
+                      </div>
+                    {% include 'formset/formset_sem_padrao.html' with formset=cidade_form title='Cidades' %}
+
+                  </div>
+                  <!-- #Tab Cidades -->
+
+                  <!-- Tab Acomodacoes -->
+                  <div role="tabpanel" class="tab-pane formset-tab" id="tab_acomodacao">
+
+                    {% include 'formset/formset_sem_padrao.html' with formset=acomodacao_form title='Acomodações' %}
+
+                  </div>
+                  <!-- #Tab Acomodacoes -->
                   
                 </div>
 

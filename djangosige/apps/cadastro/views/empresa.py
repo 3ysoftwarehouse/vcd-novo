@@ -16,7 +16,7 @@ class AdicionarEmpresaView(AdicionarPessoaView):
 
     def get_context_data(self, **kwargs):
         context = super(AdicionarEmpresaView, self).get_context_data(**kwargs)
-        context['title_complete'] = 'CADASTRAR EMPRESA'
+        context['title_complete'] = 'CADASTRAR AGÊNCIA'
         context['return_url'] = reverse_lazy('cadastro:listaempresasview')
         context['tipo_pessoa'] = 'empresa'
         return context
@@ -40,7 +40,7 @@ class EmpresasListView(PessoasListView):
 
     def get_context_data(self, **kwargs):
         context = super(EmpresasListView, self).get_context_data(**kwargs)
-        context['title_complete'] = 'EMPRESAS CADASTRADAS'
+        context['title_complete'] = 'AGÊNCIAS CADASTRADAS'
         context['add_url'] = reverse_lazy('cadastro:addempresaview')
         context['tipo_pessoa'] = 'empresa'
         return context
