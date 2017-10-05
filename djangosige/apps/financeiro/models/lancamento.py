@@ -39,6 +39,8 @@ class Lancamento(models.Model):
     movimentar_caixa = models.BooleanField(default=True)
     movimento_caixa = models.ForeignKey(
         'financeiro.MovimentoCaixa', related_name="movimento_caixa_lancamento", on_delete=models.SET_NULL, null=True, blank=True)
+    moeda = models.ForeignKey('financeiro.Moeda', related_name="moeda", on_delete=models.SET_NULL, null=True,
+                              blank=True)
 
     class Meta:
         verbose_name = "Lançamento"

@@ -41,8 +41,9 @@ class LancamentoForm(forms.ModelForm):
 
     class Meta:
         fields = ('descricao', 'grupo_plano', 'conta_corrente', 'data_pagamento', 'data_vencimento',
-                  'valor_total', 'abatimento', 'juros', 'valor_liquido', 'movimentar_caixa',)
+                  'valor_total', 'abatimento', 'juros', 'valor_liquido', 'movimentar_caixa', 'moeda')
         widgets = {
+            'moeda': forms.Select(attrs={'class': 'form-control'}),
             'descricao': forms.TextInput(attrs={'class': 'form-control'}),
             'grupo_plano': forms.Select(attrs={'class': 'form-control'}),
             'conta_corrente': forms.Select(attrs={'class': 'form-control'}),
@@ -55,6 +56,7 @@ class LancamentoForm(forms.ModelForm):
             'movimentar_caixa': forms.CheckboxInput(attrs={'class': 'form-control'}),
         }
         labels = {
+            'moeda': _('Moeda'),
             'descricao': _('Descrição'),
             'grupo_plano': _('Grupo (Plano de contas)'),
             'conta_corrente': _('Conta corrente (Banco/Agência/Conta)'),
