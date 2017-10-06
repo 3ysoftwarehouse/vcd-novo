@@ -50,6 +50,8 @@
            {% include 'financeiro/lancamento/recebimentos_list_table.html' %}
            {% elif all_lancamentos %}
            {% include 'financeiro/lancamento/todos_lancamentos_list_table.html' %}
+           {% elif all_moedas %}
+           {% include 'financeiro/lancamento/moedas_list_table.html' %}
            {% else %}
            Nenhum registro encontrado
            {% endif %}

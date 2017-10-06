@@ -31,6 +31,10 @@
            {% include 'cadastro/cliente/cliente_list_table.html' %}
            {% elif tipo_pessoa == 'empresa' %}
            {% include 'cadastro/empresa/empresa_list_table.html' %}
+           {% elif tipo_pessoa == 'passageiro' %}
+           {% include 'cadastro/passageiro/passageiro_list_table.html' %}
+           {% elif tipo_pessoa == 'escola' %}
+           {% include 'cadastro/escola/escola_list_table.html' %}
            {% elif tipo_pessoa == 'fornecedor' %}
            {% include 'cadastro/fornecedor/fornecedor_list_table.html' %}
            {% elif tipo_pessoa == 'transportadora' %}

@@ -4,7 +4,7 @@ from django import forms
 from django.utils.translation import ugettext_lazy as _
 
 #from djangosige.apps.financeiro.models import ContaPagar, ContaReceber
-from djangosige.apps.financeiro.models import Saida, Entrada, STATUS_CONTA_ENTRADA_ESCOLHAS, STATUS_CONTA_SAIDA_ESCOLHAS
+from djangosige.apps.financeiro.models import Saida, Entrada, Moeda, STATUS_CONTA_ENTRADA_ESCOLHAS, STATUS_CONTA_SAIDA_ESCOLHAS
 from djangosige.apps.financeiro.models import PlanoContasGrupo
 from djangosige.apps.login.models import Usuario
 from djangosige.apps.cadastro.models import MinhaEmpresa, Banco
@@ -136,3 +136,20 @@ class ContaPagarForm(SaidaForm):
         self.fields['status'].initial = '1'
         self.fields['data_pagamento'].widget.attrs = {
             'class': 'form-control hidden', 'disabled': True, 'style': 'background-color:lightgrey;'}
+
+
+class MoedaForm(forms.ModelForm):
+
+    class Meta:
+        model = Moeda
+        fields = ('moeda_desc', 'moeda_cambio', 'moeda_simbolo',)
+        widgets = {
+            'moeda_desc': forms.TextInput(attrs={'class': 'form-control'}),
+            'moeda_cambio': forms.TextInput(attrs={'class': 'form-control decimal-mask'}),
+            'moeda_simbolo': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+        labels = {
+            'moeda_desc': _('Descrição'),
+            'moeda_cambio': _('Cambio'),
+            'moeda_simbolo': _('Símbolo'),
+        }

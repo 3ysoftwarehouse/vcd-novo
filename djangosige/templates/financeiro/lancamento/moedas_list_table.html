@@ -1,0 +1,31 @@
+<div class="table-responsive">
+  <table id="lista-database" class="table table-bordered table-striped lista-table">
+    <thead>
+      <tr>
+        <th>#ID</th>                   
+        <th>Descrição</th>
+        <th>Câmbio</th>
+        <th>Símbolo</th>
+        <th>Remover</th>
+      </tr>
+    </thead>
+
+    <tbody>
+     {% if all_moedas %}
+     {% for moeda in all_moedas %}
+     <tr class="clickable-row" data-href="{% url 'financeiro:editarmoedaview' moeda.id_moeda %}">
+      <td>{{moeda.id_moeda}}</td>
+      <td>{{moeda.moeda_desc}}</td>
+      <td>{{moeda.moeda_cambio|default_if_none:""}}</td>
+      <td>{{moeda.moeda_simbolo|default_if_none:""}}</td>
+      <td class="lista-remove">
+        <input type="checkbox" name="{{moeda.id}}" id="remover-entrada-{{moeda.id_moeda}}"/>
+        <label class="remove-entry-label" for="remover-entrada-{{moeda.id_moeda}}"></label>
+      </td>
+    </tr>
+    {% endfor %}
+    {%else%}
+    {%endif%}
+  </tbody>
+</table>
+</div>

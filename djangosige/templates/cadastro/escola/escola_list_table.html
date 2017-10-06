@@ -1,0 +1,36 @@
+
+<div class="table-responsive">
+  <table id="lista-database" class="table table-bordered table-striped lista-table">
+    <thead>
+      <tr>
+        <th>#ID</th>                   
+        <th>Padrão</th>
+        <th>Razão Social</th>
+        <th>CNPJ</th>
+        <th>Insc. Estadual</th>
+        <th>Responsável</th>
+        <th>Remover</th>
+      </tr>
+    </thead>
+
+    <tbody>
+     {% if all_escolas %}
+     {% for escola in all_escolas %}
+     <tr class="clickable-row" data-href="{% url 'cadastro:editarescolaview' escola.id %}">
+      <td>{{escola.id}}</td>
+      <td>{% ifequal escola.id user_escola.id %}Sim{% endifequal %}</td>
+      <td>{{escola.nome_razao_social}}</td>
+      <td>{{escola.pessoa_jur_info.cnpj|default_if_none:""}}</td>
+      <td>{{escola.pessoa_jur_info.inscricao_estadual|default_if_none:""}}</td>
+      <td>{{escola.pessoa_jur_info.responsavel|default_if_none:""}}</td>
+      <td class="lista-remove">
+        <input type="checkbox" name="{{escola.id}}" id="remover-entrada-{{escola.id}}"/>
+        <label class="remove-entry-label" for="remover-entrada-{{escola.id}}"></label>
+      </td>
+    </tr>
+    {% endfor %}
+    {%else%}
+    {%endif%}
+  </tbody>
+</table>
+</div>

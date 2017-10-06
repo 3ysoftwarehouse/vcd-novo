@@ -89,4 +89,12 @@ urlpatterns = [
     # Fluxo de caixa
     #/financeiro/fluxodecaixa
     url(r'fluxodecaixa/$', views.FluxoCaixaView.as_view(), name='fluxodecaixaview'),
+
+    # Moeda
+    #/financeiro/moeda/adicionar/
+    url(r'moeda/adicionar/$', views.AdicionarMoedaView.as_view(), name='addmoedaview'),
+    #/financeiro/moeda/listamoeda
+    url(r'moeda/listamoeda/$', views.MoedaListView.as_view(), name='listamoedasview'),
+    #/financeiro/moeda/editar/
+    url(r'moeda/editar/(?P<pk>[0-9]+)/$', views.EditarMoedaView.as_view(), name='editarmoedaview'),
 ]

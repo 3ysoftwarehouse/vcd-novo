@@ -95,21 +95,12 @@
       </div>
     </div>
 
-    <div class="col-sm-3">
+    <div class="col-sm-6">
       <div class="form-group">
         <div class="form-line">
           <label>{{form.valor_total.label}}</label>{% if form.valor_total.field.required %}<strong style="color:red;"> *</strong>{% endif %}
           {% if form.valor_total.errors %}<label class="error">{% for error in form.valor_total.errors %}{{error}}{% endfor %}</label>{% endif %}
           {{form.valor_total}}
-        </div>
-      </div>
-    </div>
-    <div class="col-sm-3">
-      <div class="form-group">
-        <div class="form-line">
-          <label>{{form.moeda.label}}</label>{% if form.moeda.field.required %}<strong style="color:red;"> *</strong>{% endif %}
-          {% if form.moeda.errors %}<label class="error">{% for error in form.moeda.errors %}{{error}}{% endfor %}</label>{% endif %}
-          {{form.moeda}}
         </div>
       </div>
     </div>
