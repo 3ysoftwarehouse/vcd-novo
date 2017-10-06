@@ -2,9 +2,27 @@
 
 from django.conf.urls import url
 from . import views
+from djangosige.apps.cadastro.views.passageiro import AdicionarPassageiroView, PassageirosListView, EditarPassageiroView
+from djangosige.apps.cadastro.views.escola import AdicionarEscolaView, EditarEscolaView, EscolasListView
 
 app_name = 'cadastro'
 urlpatterns = [
+    # Passageiro
+    # /cadastro/passageiro/adicionar/
+    url(r'passageiro/adicionar/$', AdicionarPassageiroView.as_view(), name='addpassageiroview'),
+    # /cadastro/passageiro/listaclientes
+    url(r'passageiro/listapassageiros/$', PassageirosListView.as_view(), name='listapassageirosview'),
+    # /cadastro/passageiro/editar/
+    url(r'passageiro/editar/(?P<pk>[0-9]+)/$', EditarPassageiroView.as_view(), name='editarpassageiroview'),
+
+    # Escola
+    #/cadastro/escola/adicionar/
+    url(r'escola/adicionar/$', AdicionarEscolaView.as_view(), name='addescolaview'),
+    #/cadastro/escola/listaempresas
+    url(r'escola/listaescolas/$', EscolasListView.as_view(), name='listaescolasview'),
+    #/cadastro/escola/editar/
+    url(r'escola/editar/(?P<pk>[0-9]+)/$', EditarEscolaView.as_view(), name='editarescolaview'),
+
     # Empresa
     #/cadastro/empresa/adicionar/
     url(r'empresa/adicionar/$',
@@ -137,4 +155,5 @@ urlpatterns = [
     url(r'infotransportadora/$', views.InfoTransportadora.as_view(),
         name='infotransportadora'),
     url(r'infoproduto/$', views.InfoProduto.as_view(), name='infoproduto'),
+
 ]

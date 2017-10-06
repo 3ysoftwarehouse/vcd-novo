@@ -22,8 +22,7 @@
           </div>
           <!--# Header-->
 
-          <form id="addpessoa_form" role="form" action="" method="post" enctype="multipart/form-data">
-            {% csrf_token %}
+          <form id="addpessoa_form" role="form" action="" method="post" enctype="multipart/form-data">{% csrf_token %}
             <!-- Body-->
             <div class="body">
               <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -37,6 +36,14 @@
                     {% if tipo_pessoa == 'cliente' %}
 
                     {% include 'cadastro/cliente/cliente_tab_inf_gerais.html' %}
+
+                    {% elif tipo_pessoa == 'passageiro' %}
+
+                    {% include 'cadastro/passageiro/passageiro_tab_inf_gerais.html' %}
+
+                    {% elif tipo_pessoa == 'escola' %}
+
+                    {% include 'cadastro/escola/escola_tab_inf_gerais.html' %}
 
                     {% elif tipo_pessoa == 'empresa' %}
 
@@ -53,6 +60,20 @@
                     {% endif %}
 
                   </div>
+                  <!-- #Tab informacoes do passageiro -->
+
+                  <div role="tabpanel" class="tab-pane formset-tab" id="tab_inf_passageiro">
+                      <div class="col-sm-6">
+                          <div class="form-group">
+                                <div class="form-line">
+                                    <label>{{form.escola.label}}</label>
+                                    {% if form.escola.errors %}<label class="error">{% for error in form.escola.errors %}{{error}}{% endfor %}</label>{% endif %}
+                                    {{form.escola}}
+                                </div>
+                            </div>
+                        </div>
+                  </div>
+
                   <!-- #Tab informacoes gerais -->
 
                   {% if tipo_pessoa == 'transportadora' %}
@@ -116,14 +137,22 @@
 {%endblock%}
 
 {% block js %}
-  
+
   {% if tipo_pessoa == 'cliente' %}
 
-  {% include 'cadastro/cliente/cliente_blockjs.html' %} 
+  {% include 'cadastro/cliente/cliente_blockjs.html' %}
 
   {% elif tipo_pessoa == 'empresa' %}
 
   {% include 'cadastro/empresa/empresa_blockjs.html' %}
+
+  {% elif tipo_pessoa == 'passageiro' %}
+
+  {% include 'cadastro/passageiro/passageiro_blockjs.html' %}
+
+  {% elif tipo_pessoa == 'escola' %}
+
+  {% include 'cadastro/escola/escola_blockjs.html' %}
 
   {% elif tipo_pessoa == 'fornecedor' %}
 
@@ -136,5 +165,5 @@
   {% endif %}
 
   {% include 'cadastro/pessoa_blockjs.html' %}
-  
+
 {% endblock %}

@@ -4,11 +4,12 @@ from django.core.urlresolvers import reverse_lazy
 from django.contrib import messages
 from django.shortcuts import redirect
 from django.http import JsonResponse
+from django.views.generic import CreateView, ListView, UpdateView
 
 from djangosige.apps.base.custom_views import CustomView, CustomCreateView, CustomListView, CustomUpdateView
 
-from djangosige.apps.financeiro.forms import ContaPagarForm, ContaReceberForm, SaidaForm, EntradaForm
-from djangosige.apps.financeiro.models import Lancamento, Saida, Entrada, MovimentoCaixa
+from djangosige.apps.financeiro.forms import ContaPagarForm, ContaReceberForm, SaidaForm, EntradaForm, MoedaForm
+from djangosige.apps.financeiro.models import Lancamento, Saida, Entrada, MovimentoCaixa, Moeda
 from djangosige.apps.vendas.models import PedidoVenda
 from djangosige.apps.compras.models import PedidoCompra
 from djangosige.apps.estoque.models import SaidaEstoque, ItensMovimento, ProdutoEstocado
@@ -775,3 +776,43 @@ class FaturarPedidoCompraView(CustomView, MovimentoCaixaMixin):
             request, "<b>Pedido de compra {0} </b>realizado com sucesso.".format(str(pedido.id)))
 
         return redirect(reverse_lazy('compras:listapedidocompraview'))
+
+
+class MoedaListView(ListView):
+    template_name = 'financeiro/lancamento/lancamento_list.html'
+    model = Moeda
+    context_object_name = 'all_moedas'
+    success_url = reverse_lazy('financeiro:listamoedaview')
+
+    def get_context_data(self, **kwargs):
+        context = super(MoedaListView, self).get_context_data(**kwargs)
+        context['title_complete'] = 'MOEDAS'
+        context['add_url'] = reverse_lazy('financeiro:addmoedaview')
+        return context
+
+
+class AdicionarMoedaView(CreateView):
+    form_class = MoedaForm
+    template_name = "financeiro/lancamento/moeda_add.html"
+    success_url = reverse_lazy('financeiro:listamoedasview')
+    success_message = "Moeda adicionado com sucesso."
+
+    def get_context_data(self, **kwargs):
+        context = super(AdicionarMoedaView, self).get_context_data(**kwargs)
+        context['title_complete'] = 'ADICIONAR MOEDA'
+        context['return_url'] = reverse_lazy('financeiro:listamoedasview')
+        return context
+
+
+class EditarMoedaView(UpdateView):
+    form_class = MoedaForm
+    model = Moeda
+    template_name = "financeiro/lancamento/moeda_edit.html"
+    success_url = reverse_lazy('financeiro:listamoedasview')
+    success_message = "Moeda editado com sucesso."
+
+    def get_context_data(self, **kwargs):
+        context = super(EditarMoedaView, self).get_context_data(**kwargs)
+        context['return_url'] = reverse_lazy('financeiro:listamoedasview')
+        return context
+

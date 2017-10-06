@@ -1,0 +1,84 @@
+{%extends 'base/base.html'%}
+
+{%block title%}{{title_complete|title}}{%endblock%}
+{%block content%}
+<section class="content">
+    <div class="container-fluid">
+
+        {% include 'base/title_header.html' %}
+
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="row">
+                <div class="card">
+
+                    <!--Header-->
+                    <div class="header">
+
+                        <h2>
+                            <a href="{{return_url}}"><i class="material-icons">&#xE5C4;</i></a>{{title_complete}}
+                        </h2>
+                        <div>
+                            <small>Campos marcados com <strong style="color:red;">*</strong> são obrigatórios.</small>
+                        </div>
+
+                    </div>
+                    <!--# Header-->
+
+                    <form role="form" action="" method="post">
+                        {% csrf_token %}
+
+                        <div class="body">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <label>{{form.moeda_desc.label}}</label>{% if form.moeda_desc.field.required %}<strong style="color:red;"> *</strong>{% endif %}
+                                            {% if form.moeda_desc.errors %}<label class="error">{% for error in form.moeda_desc.errors %}{{error}}{% endfor %}</label>{% endif %}
+                                            {{form.moeda_desc}}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <label>{{form.moeda_cambio.label}}</label>{% if form.moeda_cambio.field.required %}<strong style="color:red;"> *</strong>{%endif %}
+                                            {% if form.moeda_cambio.errors %}<label class="error">{% for error in form.moeda_cambio.errors %}{{error}}{% endfor %}</label>{% endif %}
+                                            {{form.moeda_cambio}}
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <label>{{form.moeda_simbolo.label}}</label>{% if form.moeda_simbolo.field.required %}<strong style="color:red;"> *</strong>{%endif %}
+                                            {% if form.moeda_simbolo.errors %}<label class="error">{% for error in form.moeda_simbolo.errors %}{{error}}{% endfor %}</label>{% endif %}
+                                            {{form.moeda_simbolo}}
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <button class="btn btn-success foot-btn" type="submit"><i class="material-icons">&#xE148;</i><span> SALVAR</span></button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+{%endblock%}
+
+{% block js %}
+
+{% include 'financeiro/lancamento/lancamento_jsblock.html' %}
+
+{% endblock %}
