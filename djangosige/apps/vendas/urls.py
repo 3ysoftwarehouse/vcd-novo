@@ -5,6 +5,17 @@ from . import views
 
 app_name = 'vendas'
 urlpatterns = [
+    # PROSPECT
+    #/vendas/prospect/adicionar/
+    url(r'prospect/adicionar/$',
+        views.AdicionarProspectView.as_view(), name='addprospectview'),
+    #/vendas/prospect/listaprospect
+    url(r'prospect/listaprospect/$',
+        views.ProspectListView.as_view(), name='listaprospectview'),
+    #/vendas/prospect/editar/
+    url(r'prospect/editar/(?P<pk>[0-9]+)/$',
+        views.EditarProspectView.as_view(), name='editarprospectview'),
+
     # Orcamentos de venda
     #/vendas/orcamentovenda/adicionar/
     url(r'orcamentovenda/adicionar/$',
