@@ -4,9 +4,6 @@
           
           <ul class="nav nav-tabs" role="tablist">
             <li role="presentation" class="active"><a href="#tab_informacoes" data-toggle="tab">INFORMAÇÕES</a></li>
-            {% if request.user.is_superuser %}
-                <li role="presentation"><a href="#tab_contatos" data-toggle="tab">CONTATOS</a></li>
-            {% endif %}
           </ul>
       
           <div class="tab-content">
@@ -14,6 +11,24 @@
             <!-- Tab INFORMAÇÕES -->
             <div role="tabpanel" class="tab-pane active" id="tab_informacoes">
       
+              {% if request.user.is_superuser %}
+                <div class="col-sm-12">
+                    <div class="form-group">
+                    <div class="form-line">
+                        <label>{{form.emissor.label}}</label>
+                        {% if form.emissor.errors %}
+                            <label class="error">
+                                {% for error in form.emissor.errors %}
+                                    {{error}}
+                                {% endfor %}
+                            </label>
+                        {% endif %}
+                        {{form.emissor}}
+                    </div>
+                    </div>
+                </div>
+              {% endif %}
+
               <div class="col-sm-6">
                 <div class="form-group">
                   <div class="form-line">
@@ -127,74 +142,8 @@
               </div>
       
             </div>
-             <!--#Tab INFORMAÇÕES-->
-      
-            {% if request.user.is_superuser %}
-                <!-- Tab CONTATOS -->
-                <div role="tabpanel" class="tab-pane" id="tab_contatos">
-                <div class="col-sm-12">
-
-                    <div class="col-sm-12">
-                    <div class="form-group">
-                        <label>{{form_contato.tipo_contato.label}}</label>
-                        {% if form_contato.tipo_contato.errors %}
-                            <label class="error">
-                                {% for error in form_contato.tipo_contato.errors %}
-                                    {{error}}
-                                {% endfor %}
-                            </label>
-                        {% endif %}
-                        <div class="input-group" style="margin-bottom: 0px;">
-                        <div class="form-line">
-                            {{form_contato.tipo_contato}}
-                        </div>
-                        </div>
-                    </div>
-                    </div>
-
-                    {% if request.user.is_superuser %}
-                        <div class="col-sm-12">
-                            <div class="form-group">
-                                <label>{{form_contato.emissor.label}}</label>
-                                {% if form_contato.emissor.errors %}
-                                    <label class="error">
-                                        {% for error in form_contato.emissor.errors %}
-                                            {{error}}
-                                        {% endfor %}
-                                    </label>
-                                {% endif %}
-                                <div class="input-group" style="margin-bottom: 0px;">
-                                <div class="form-line">
-                                    {{form_contato.emissor}}
-                                </div>
-                                </div>
-                            </div>
-                        </div>
-                    {% endif %}
-        
-                    <div class="col-sm-12">
-                    <div class="form-group">
-                        <label>{{form_contato.observacao.label}}</label>
-                        {% if form_contato.observacao.errors %}
-                            <label class="error">
-                                {% for error in form_contato.observacao.errors %}
-                                    {{error}}
-                                {% endfor %}
-                            </label>
-                        {% endif %}
-                        <div class="input-group" style="margin-bottom: 0px;">
-                        <div class="form-line">
-                            {{form_contato.observacao}}
-                        </div>
-                        </div>
-                    </div>
-                    </div>
-
-                </div>
-                </div>
-                <!-- #Tab CONTATOS -->    
-            {% endif %}          
-            
+            <!--#Tab INFORMAÇÕES-->
+       
           </div>
             
         </div>
