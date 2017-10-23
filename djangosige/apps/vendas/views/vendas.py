@@ -8,7 +8,7 @@ from djangosige.apps.base.custom_views import CustomView, CustomCreateView, Cust
 
 from djangosige.apps.vendas.forms import OrcamentoVendaForm, PedidoVendaForm, ItensVendaFormSet, PagamentoFormSet, ProspectForm, ContatoProspectForm
 from djangosige.apps.vendas.models import OrcamentoVenda, PedidoVenda, ItensVenda, Pagamento, Prospect, ContatoProspect
-from djangosige.apps.cadastro.models import MinhaEmpresa
+from djangosige.apps.cadastro.models import MinhaEmpresa, Cliente
 from djangosige.apps.login.models import Usuario
 from djangosige.configs.settings import MEDIA_ROOT
 
@@ -54,10 +54,15 @@ class AdicionarProspectView(CustomCreateView):
         if (form.is_valid() and form_contato.is_valid()):
             self.object = form.save(commit=False)
             self.object.save()
+
+            cliente = Cliente()
+            cliente.nome_razao_social = self.object.cliente
+            cliente.save()
             
             contato = form_contato.save(commit=False)
             contato.prospect = self.object
-            contato.emissor = request.user
+            if not request.user.is_superuser:
+                contato.emissor = request.user
             contato.save()
 
             return self.form_valid(form)
@@ -275,6 +280,7 @@ class PedidoVendaEntregaHojeListView(PedidoVendaListView):
 
 
 class EditarProspectView(CustomUpdateView):
+    model = Prospect
     form_class = ProspectForm
     template_name = "vendas/prospect/prospect_edit.html"
     success_url = reverse_lazy('vendas:listaprospectview')
@@ -291,14 +297,17 @@ class EditarProspectView(CustomUpdateView):
     def view_context(self, context):
         context['title_complete'] = 'EDITAR PROSPECT N°' + \
             str(self.object.id)
-        context['return_url'] = reverse_lazy('vendas:listprospectview')
+        context['return_url'] = reverse_lazy('vendas:listaprospectview')
         return context
 
     def get(self, request, *args, **kwargs):
-        contato_prospect = ContatoProspect.objects.get(prospect=self.object)
+        self.object = self.get_object()
+        contato_prospect = ContatoProspect.objects.get(prospect=self.object.id)
 
-        if not request.user.is_superuser or (request.user == self.object.emissor and contato_prospect.emissor):
-            return redirect(reverse_lazy('vendas:listprospectview'))
+        if not request.user.is_superuser and request.user == contato_prospect.emissor:
+            return redirect(reverse_lazy('vendas:listaprospectview'))
+        elif not request.user.is_superuser and contato_prospect.emissor:
+            return redirect(reverse_lazy('vendas:listaprospectview'))
 
         form = self.get_form(self.form_class)
         form_contato = ContatoProspectForm(instance=contato_prospect, 
@@ -308,10 +317,13 @@ class EditarProspectView(CustomUpdateView):
                                                              form_contato=form_contato))
 
     def post(self, request, *args, **kwargs):
-        contato_prospect = ContatoProspect.objects.get(prospect=self.object)
+        self.object = self.get_object()
+        contato_prospect = ContatoProspect.objects.get(prospect=self.object.id)
 
-        if not request.user.is_superuser or (request.user == self.object.emissor and contato_prospect.emissor):
-            return redirect(reverse_lazy('vendas:listprospectview'))
+        if not request.user.is_superuser and request.user == contato_prospect.emissor:
+            return redirect(reverse_lazy('vendas:listaprospectview'))
+        elif not request.user.is_superuser and contato_prospect.emissor:
+            return redirect(reverse_lazy('vendas:listaprospectview'))
         
         form = self.get_form(self.form_class)
         form_contato = ContatoProspectForm(request.POST, 

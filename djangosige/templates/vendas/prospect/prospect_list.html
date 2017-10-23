@@ -38,13 +38,12 @@
                   <th>Cliente Sistema</th>
                   <th>Email</th>
                   <th>Telefone</th>
-                  <th>Remover</th>
                 </tr>
               </thead>
 
               <tbody>
                {% if all_prospects%}
-                {% for contato_prospect.prospect in all_prospects %}
+                {% for contato_prospect in all_prospects %}
                   {% if request.user.is_superuser or contato_prospect.emissor == request.user or not contato_prospect.emissor %}
                     <tr class="clickable-row" data-href="{% url 'vendas:editarprospectview' contato_prospect.prospect.pk %}">
                         <td>{{contato_prospect.prospect.pk}}</td>
@@ -54,10 +53,6 @@
                         <td>{{contato_prospect.prospect.cliente_sistema|default_if_none:""}}</td>
                         <td>{{contato_prospect.prospect.email|default_if_none:""}}</td>
                         <td>{{contato_prospect.prospect.telefone|default_if_none:""}}</td>
-                        <td class="lista-remove">
-                            <input type="checkbox" name="{{contato_prospect.prospect.pk}}" id="remover-entrada-{{contato_prospect.prospect.pk}}"/>
-                            <label class="remove-entry-label" for="remover-entrada-{{contato_prospect.prospect.pk}}"></label>
-                        </td>
                     </tr>
                   {% endif %}
                 {% endfor %}
