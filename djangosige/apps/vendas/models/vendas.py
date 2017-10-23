@@ -507,6 +507,6 @@ class ContatoProspect(models.Model):
     tipo_contato = models.CharField(
         max_length=1, choices=TIPO_CONTATO, null=True, blank=True)
     observacao = models.CharField(max_length=500)
-    emissor = models.CharField(max_length=500)
+    emissor = models.ForeignKey('auth.User')
 
     #Adicionar o timestamp

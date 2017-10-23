@@ -4,7 +4,56 @@ from django import forms
 from django.utils.translation import ugettext_lazy as _
 from django.forms import inlineformset_factory
 
-from djangosige.apps.vendas.models import OrcamentoVenda, PedidoVenda, ItensVenda, Venda
+from djangosige.apps.vendas.models import OrcamentoVenda, PedidoVenda, ItensVenda, Venda, Prospect, ContatoProspect
+
+
+class ProspectForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(ProspectForm, self).__init__(*args, **kwargs)
+
+    class Meta:
+        model = Prospect
+        fields = ('passageiro', 'cliente', 'escola', 'email', 'telefone', 'cliente_sistema', 'observacao')
+
+        widgets = {
+            'passageiro': forms.TextInput(attrs={'class': 'form-control'}),
+            'cliente': forms.TextInput(attrs={'class': 'form-control'}),
+            'escola': forms.Select(attrs={'class': 'form-control'}),
+            'email': forms.TextInput(attrs={'class': 'form-control'}),
+            'telefone': forms.TextInput(attrs={'class': 'form-control telefone'}),
+            'cliente_sistema': forms.Select(attrs={'class': 'form-control'}),
+            'observacao': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+
+        labels = {
+            'passageiro': _('Passageiro'),
+            'cliente': _('Cliente'),
+            'escola': _('Escola'),
+            'email': _('Email'),
+            'telefone': _('Telefone'),
+            'cliente_sistema': _('Cliente do Sistema'),
+            'observacao': _('Observação'),
+        }
+
+
+class ContatoProspectForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(ContatoProspectForm, self).__init__(*args, **kwargs)
+
+    class Meta:
+        model = ContatoProspect
+        fields = ('emissor', 'tipo_contato', 'observacao')
+
+        widgets = {
+            'emissor': forms.Select(attrs={'class': 'form-control'}),
+            'tipo_contato': forms.Select(attrs={'class': 'form-control'}),
+            'observacao': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+
+        labels = {
+            'tipo_contato': _('Tipo de Contato'),
+            'observacao': _('Observação'),
+        }
 
 
 class VendaForm(forms.ModelForm):
