@@ -496,6 +496,7 @@ class Prospect(models.Model):
     cliente_sistema = models.ForeignKey('cadastro.Cliente', related_name="escola_prospect",
                                 on_delete=models.DO_NOTHING, null=True, blank=True)
     observacao = models.CharField(max_length=500, null=True, blank=True)
+    emissor = models.ForeignKey('auth.User', null=True, blank=True)
 
     def __str__(self):
         return self.passageiro
@@ -506,7 +507,7 @@ class ContatoProspect(models.Model):
                                 on_delete=models.DO_NOTHING)
     tipo_contato = models.CharField(
         max_length=1, choices=TIPO_CONTATO, null=True, blank=True)
-    observacao = models.CharField(max_length=500)
+    observacao = models.CharField(max_length=500, null=True, blank=True)
     emissor = models.ForeignKey('auth.User')
 
     #Adicionar o timestamp

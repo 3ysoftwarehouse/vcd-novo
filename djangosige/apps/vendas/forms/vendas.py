@@ -13,9 +13,10 @@ class ProspectForm(forms.ModelForm):
 
     class Meta:
         model = Prospect
-        fields = ('passageiro', 'cliente', 'escola', 'email', 'telefone', 'cliente_sistema', 'observacao')
+        fields = ('emissor', 'passageiro', 'cliente', 'escola', 'email', 'telefone', 'cliente_sistema', 'observacao')
 
         widgets = {
+            'emissor': forms.Select(attrs={'class': 'form-control'}),
             'passageiro': forms.TextInput(attrs={'class': 'form-control'}),
             'cliente': forms.TextInput(attrs={'class': 'form-control'}),
             'escola': forms.Select(attrs={'class': 'form-control'}),
@@ -26,6 +27,7 @@ class ProspectForm(forms.ModelForm):
         }
 
         labels = {
+            'emissor': _('Emissor'),
             'passageiro': _('Passageiro'),
             'cliente': _('Cliente'),
             'escola': _('Escola'),
@@ -42,10 +44,9 @@ class ContatoProspectForm(forms.ModelForm):
 
     class Meta:
         model = ContatoProspect
-        fields = ('emissor', 'tipo_contato', 'observacao')
+        fields = ('tipo_contato', 'observacao')
 
         widgets = {
-            'emissor': forms.Select(attrs={'class': 'form-control'}),
             'tipo_contato': forms.Select(attrs={'class': 'form-control'}),
             'observacao': forms.TextInput(attrs={'class': 'form-control'}),
         }

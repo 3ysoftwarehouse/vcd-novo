@@ -41,35 +41,70 @@ class AdicionarProspectView(CustomCreateView):
     def get(self, request, *args, **kwargs):
         self.object = None
         form = self.get_form(self.form_class)
-        form_contato = ContatoProspectForm(prefix='contato_form')
-        return self.render_to_response(self.get_context_data(form=form,
-                                                             form_contato=form_contato))
+        return self.render_to_response(self.get_context_data(form=form))
 
     def post(self, request, *args, **kwargs):
         self.object = None
 
         form = self.get_form(self.form_class)
-        form_contato = ContatoProspectForm(request.POST, prefix='contato_form')
 
-        if (form.is_valid() and form_contato.is_valid()):
+        if form.is_valid():
             self.object = form.save(commit=False)
+            if not request.user.is_superuser:
+                self.object.emissor = request.user
             self.object.save()
 
-            cliente = Cliente()
-            cliente.nome_razao_social = self.object.cliente
-            cliente.save()
+            if not Cliente.objects.filter(nome_razao_social=self.object.cliente):
+                cliente = Cliente()
+                cliente.nome_razao_social = self.object.cliente
+                if not request.user.is_superuser:
+                    cliente.emissor = request.user
+                cliente.save()
             
-            contato = form_contato.save(commit=False)
-            contato.prospect = self.object
-            if not request.user.is_superuser:
-                contato.emissor = request.user
-            contato.save()
-
             return self.form_valid(form)
 
-        return self.form_invalid(form=form, 
-                                 form_contato=form_contato)
+        return self.form_invalid(form=form)
 
+class AdicionarContatoProspectView(CustomCreateView):
+    form_class = ContatoProspectForm
+    template_name = "vendas/contatoprospect/prospect_add.html"
+    success_url = reverse_lazy('vendas:listacontatoprospectview')
+    success_message = "<b>Contato Prospect %(id)s </b>adicionado com sucesso."
+    permission_codename = 'add_contatoprospect'
+
+    def get_success_message(self, cleaned_data):
+        return self.success_message % dict(cleaned_data, id=self.object.pk)
+
+    def get_context_data(self, **kwargs):
+        context = super(AdicionarProspectView, self).get_context_data(**kwargs)
+        return self.view_context(context)
+
+    def view_context(self, context):
+        context['title_complete'] = 'ADICIONAR CONTATO PROSPECT'
+        context['return_url'] = reverse_lazy('vendas:listacontatoprospectview')
+        return context
+
+    def get(self, request, pk, *args, **kwargs):
+        self.object = None
+        form = self.get_form(self.form_class)
+        contatos = ContatoProspectForm.objects.filter(prospect=pk)
+        return self.render_to_response(self.get_context_data(form=form, contatos=contatos))
+
+    def post(self, request, *args, **kwargs):
+        self.object = None
+
+        form = self.get_form(self.form_class)
+        contatos = ContatoProspectForm.objects.filter(prospect=pk)
+
+        if form.is_valid():
+            self.object = form.save(commit=False)
+            if not request.user.is_superuser:
+                self.object.emissor = request.user
+            self.object.save()
+            
+            return self.form_valid(form)
+
+        return self.form_invalid(form=form, contatos=contatos)
 
 class AdicionarVendaView(CustomCreateView):
 
@@ -181,7 +216,7 @@ class AdicionarPedidoVendaView(AdicionarVendaView):
 
 class ProspectListView(CustomListView):
     template_name = 'vendas/prospect/prospect_list.html'
-    model = ContatoProspect
+    model = Prospect
     context_object_name = 'all_prospects'
     success_url = reverse_lazy('vendas:listaprospectview')
     permission_codename = 'view_prospect'
@@ -302,46 +337,38 @@ class EditarProspectView(CustomUpdateView):
 
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
-        contato_prospect = ContatoProspect.objects.get(prospect=self.object.id)
 
-        if not request.user.is_superuser and request.user == contato_prospect.emissor:
-            return redirect(reverse_lazy('vendas:listaprospectview'))
-        elif not request.user.is_superuser and contato_prospect.emissor:
+        if not request.user.is_superuser:
             return redirect(reverse_lazy('vendas:listaprospectview'))
 
         form = self.get_form(self.form_class)
-        form_contato = ContatoProspectForm(instance=contato_prospect, 
-                                           prefix='contato_form')
 
-        return self.render_to_response(self.get_context_data(form=form,
-                                                             form_contato=form_contato))
+        return self.render_to_response(self.get_context_data(form=form))
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
-        contato_prospect = ContatoProspect.objects.get(prospect=self.object.id)
 
-        if not request.user.is_superuser and request.user == contato_prospect.emissor:
-            return redirect(reverse_lazy('vendas:listaprospectview'))
-        elif not request.user.is_superuser and contato_prospect.emissor:
+        if not request.user.is_superuser:
             return redirect(reverse_lazy('vendas:listaprospectview'))
         
         form = self.get_form(self.form_class)
-        form_contato = ContatoProspectForm(request.POST, 
-                                           instance=contato_prospect, 
-                                           prefix='contato_form')
 
-        if (form.is_valid() and form_contato.is_valid()):
+        if form.is_valid():
             self.object = form.save(commit=False)
+            if not request.user.is_superuser:
+                self.object.emissor = request.user
             self.object.save()
 
-            contato = form_contato.save(commit=False)
-            contato.prospect = self.object
-            contato.emissor = request.user
-            contato.save()
+            if not Cliente.objects.filter(nome_razao_social=self.object.cliente):
+                cliente = Cliente()
+                cliente.nome_razao_social = self.object.cliente
+                if not request.user.is_superuser:
+                    cliente.emissor = request.user
+                cliente.save()   
+
             return self.form_valid(form)
 
-        return self.form_invalid(form=form,
-                                 form_contato=form_contato)
+        return self.form_invalid(form=form)
 
 
 class EditarVendaView(CustomUpdateView):
