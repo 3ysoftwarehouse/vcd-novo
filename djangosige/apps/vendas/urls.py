@@ -16,6 +16,16 @@ urlpatterns = [
     url(r'prospect/editar/(?P<pk>[0-9]+)/$',
         views.EditarProspectView.as_view(), name='editarprospectview'),
 
+    #/vendas/prospect/contatos/adicionar/
+    url(r'prospect/contatos/adicionar/(?P<pk>[0-9]+)/$',
+        views.AdicionarContatoProspectView.as_view(), name='addcontatoprospectview'),
+    #/vendas/prospect/contatos/listacontatos
+    url(r'prospect/contatos/listacontatos/(?P<pk>[0-9]+)/$',
+        views.ContatoProspectListView.as_view(), name='listacontatoprospectview'),
+    #/vendas/contatoprospect/editar/
+    url(r'prospect/contatos/editar/(?P<pk>[0-9]+)/$',
+        views.EditarContatoProspectView.as_view(), name='editarcontatoprospectview'),
+
     # Orcamentos de venda
     #/vendas/orcamentovenda/adicionar/
     url(r'orcamentovenda/adicionar/$',
