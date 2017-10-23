@@ -26,7 +26,7 @@ class EmpresaForm(forms.ModelForm):
             'informacoes_adicionais': forms.Textarea(attrs={'class': 'form-control'}),
         }
         labels = {
-            'nome_razao_social': _('Razão Social'),
+            'nome_razao_social': _('Nome / Razão Social'),
             'cnae': _('CNAE'),
             'inscricao_municipal': _('Inscrição Municipal'),
             'logo_file': _('Logo'),

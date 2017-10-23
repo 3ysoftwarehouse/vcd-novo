@@ -16,11 +16,11 @@ class PassageiroForm(forms.ModelForm):
     class Meta:
         model = Passageiro
         fields = ('nome_razao_social', 'tipo_pessoa', 'inscricao_municipal',
-                  'limite_de_credito', 'indicador_ie', 'id_estrangeiro', 'informacoes_adicionais', 'escola',)
+                  'limite_de_credito', 'indicador_ie', 'id_estrangeiro', 'informacoes_adicionais', 'escola_passageiro',)
         widgets = {
             'nome_razao_social': forms.TextInput(attrs={'class': 'form-control'}),
             'tipo_pessoa': forms.RadioSelect(attrs={'class': 'form-control'}),
-            'escola': forms.Select(attrs={'class': 'form-control'}),
+            'escola_passageiro': forms.Select(attrs={'class': 'form-control'}),
             'limite_de_credito': forms.TextInput(attrs={'class': 'form-control decimal-mask'}),
             'indicador_ie': forms.Select(attrs={'class': 'form-control'}),
             'inscricao_municipal': forms.TextInput(attrs={'class': 'form-control'}),
@@ -28,9 +28,9 @@ class PassageiroForm(forms.ModelForm):
             'informacoes_adicionais': forms.Textarea(attrs={'class': 'form-control'}),
         }
         labels = {
-            'nome_razao_social': _('Razão Social'),
+            'nome_razao_social': _('Nome / Razão Social'),
             'tipo_pessoa': _(''),
-            'escola': _('Escola'),
+            'escola_passageiro': _('Escola'),
             'limite_de_credito': _('Limite de Crédito'),
             'indicador_ie': _('Indicador da IE do Destinatário'),
             'inscricao_municipal': _('Inscrição Municipal'),

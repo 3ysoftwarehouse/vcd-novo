@@ -93,7 +93,7 @@ class AdicionarOrcamentoVendaView(AdicionarVendaView):
     permission_codename = 'add_orcamentovenda'
 
     def view_context(self, context):
-        context['title_complete'] = 'ADICIONAR ORÇAMENTO DE VENDA'
+        context['title_complete'] = 'ADICIONAR COTAÇÃO'
         context['return_url'] = reverse_lazy('vendas:listaorcamentovendaview')
         return context
 
@@ -142,7 +142,7 @@ class OrcamentoVendaListView(VendaListView):
     permission_codename = 'view_orcamentovenda'
 
     def view_context(self, context):
-        context['title_complete'] = 'ORÇAMENTOS DE VENDA'
+        context['title_complete'] = 'COTAÇÕES'
         context['add_url'] = reverse_lazy('vendas:addorcamentovendaview')
         return context
 

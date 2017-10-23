@@ -175,7 +175,7 @@ class ItensCompraForm(forms.ModelForm):
             'quantidade': _('Quantidade'),
             'valor_unit': _('Vl. Unit.'),
             'subtotal': _('Subtotal'),
-            'tipo_desconto': _('Tipo de desconto'),
+            'tipo_desconto': _('Desconto'),
             'desconto': _('Desconto (% ou R$)'),
         }
 

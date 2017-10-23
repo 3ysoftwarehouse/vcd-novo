@@ -27,6 +27,15 @@ STATUS_PEDIDO_VENDA_ESCOLHAS = (
     (u'3', u'Importado por XML'),
 )
 
+TIPO_CONTATO = (
+    (u'1', u'Visita'),
+    (u'2', u'Reunião'),
+    (u'3', u'Proposta'),
+    (u'4', u'Ligação'),
+    (u'5', u'Email'),
+
+)
+
 TIPOS_DESCONTO_ESCOLHAS = (
     (u'0', u'Valor'),
     (u'1', u'Percentual'),
@@ -280,7 +289,7 @@ class Venda(models.Model):
     # Estoque
     local_orig = models.ForeignKey(
         'estoque.LocalEstoque', related_name="venda_local_estoque", default=DEFAULT_LOCAL_ID)
-    movimentar_estoque = models.BooleanField(default=True)
+    movimentar_estoque = models.BooleanField(default=False)
     # Info
     data_emissao = models.DateField(null=True, blank=True)
     vendedor = models.CharField(max_length=255, null=True, blank=True)
@@ -301,6 +310,10 @@ class Venda(models.Model):
     cond_pagamento = models.ForeignKey(
         'vendas.CondicaoPagamento', related_name="venda_pagamento", on_delete=models.SET_NULL, null=True, blank=True)
     observacoes = models.CharField(max_length=1055, null=True, blank=True)
+    pacote = models.ForeignKey('cadastro.Produto', related_name="pacote",
+                                on_delete=models.DO_NOTHING, null=True, blank=True)
+    passageiro = models.ForeignKey(
+        'cadastro.Passageiro', related_name="venda_passageiro", on_delete=models.DO_NOTHING, null=True, blank=True)
 
     def get_total_sem_imposto(self):
         total_sem_imposto = self.valor_total - self.impostos
@@ -471,3 +484,29 @@ class PedidoVenda(Venda):
         s = u'Pedido de venda nº %s (%s)' % (
             self.id, self.get_status_display())
         return s
+
+
+class Prospect(models.Model):
+    passageiro = models.CharField(max_length=200)
+    cliente = models.CharField(max_length=200, null=True, blank=True)
+    escola = models.ForeignKey('cadastro.Escola', related_name="escola_prospect",
+                                on_delete=models.DO_NOTHING, null=True, blank=True)
+    email = models.EmailField(null=True, blank=True)
+    telefone = models.CharField(max_length=16,null=True, blank=True)
+    cliente_sistema = models.ForeignKey('cadastro.Cliente', related_name="escola_prospect",
+                                on_delete=models.DO_NOTHING, null=True, blank=True)
+    observacao = models.CharField(max_length=500, null=True, blank=True)
+
+    def __str__(self):
+        return self.passageiro
+
+
+class ContatoProspect(models.Model):
+    prospect = models.ForeignKey(Prospect, related_name="prospect",
+                                on_delete=models.DO_NOTHING)
+    tipo_contato = models.CharField(
+        max_length=1, choices=TIPO_CONTATO, null=True, blank=True)
+    observacao = models.CharField(max_length=500)
+    emissor = models.CharField(max_length=500)
+
+    #Adicionar o timestamp

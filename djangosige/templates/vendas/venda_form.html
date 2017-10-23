@@ -5,10 +5,10 @@
     <ul class="nav nav-tabs" role="tablist">
       <li role="presentation" class="active"><a href="#tab_informacoes" data-toggle="tab">INFORMAÇÕES</a></li>
       <li role="presentation"><a href="#tab_cliente" data-toggle="tab">CLIENTE</a></li>
-      <li role="presentation"><a href="#tab_transporte" data-toggle="tab">TRANSPORTE</a></li>
+      <!--<li role="presentation"><a href="#tab_transporte" data-toggle="tab">TRANSPORTE</a></li>-->
       <li role="presentation"><a href="#tab_produtos" data-toggle="tab">PRODUTOS</a></li>
       <li role="presentation"><a href="#tab_pagamento" data-toggle="tab">PAGAMENTO</a></li>
-      <li role="presentation"><a href="#tab_estoque" data-toggle="tab">ESTOQUE</a></li>
+      <!--<li role="presentation"><a href="#tab_estoque" data-toggle="tab">ESTOQUE</a></li>-->
     </ul>
 
     <div class="tab-content">
@@ -91,7 +91,7 @@
         </div>
 
       </div>
-      <!-- #Tab INFORMAÇÕES -->
+       <!--#Tab INFORMAÇÕES-->
 
       <!-- Tab TRANSPORTE -->
       <div role="tabpanel" class="tab-pane" id="tab_transporte">
@@ -148,8 +148,20 @@
             </div>
           </div>
         </div>
-
         <div class="col-sm-6">
+          <div class="form-group">
+            <label>{{form.passageiro.label}}</label><strong style="color:red;"> *</strong>
+            {% if form.passageiro.errors %}<label class="error">{% for error in form.passageiro.errors %}{{error}}{% endfor %}</label>{% endif %}
+            <div class="input-group" style="margin-bottom: 0px;">
+              <div class="form-line">
+                {{form.passageiro}}
+              </div>
+              <a class="input-group-addon newwindow" style="color: green;" title="Adicionar passageiro" href="{% url 'cadastro:addpassageiroview' %}"><i class="material-icons add-new-icon" title="Adicionar passageiro">&#xE147;</i></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-6" style="display:None">
           <div class="form-group">
             <div class="form-line">
               {{form.ind_final}}
@@ -272,7 +284,20 @@
 
       <!-- Tab PRODUTOS -->
       <div role="tabpanel" class="tab-pane formset-tab" id="tab_produtos">
+        <h4 style="border-bottom: 1px solid #afabab;">Reserva</h4>
+        <div class="row">
+        <div class="col-sm-2">
+          <div class="form-group">
+            <div class="form-line">
+              <label {% for error in form.pacote.errors %}title="{{error}}"{% endfor %}>{{form.pacote.label}}</label>
+              {% if form.pacote.errors %}<label class="error"></label>{% endif %}
+              {{form.pacote}}
+            </div>
+          </div>
+        </div>
+          </div>
         <h4 style="border-bottom: 1px solid #afabab;">Total</h4>
+        <div class="row">
         <div class="col-sm-2">
           <div class="form-group">
             <div class="form-line">
@@ -293,7 +318,7 @@
           </div>
         </div>
 
-        <div class="col-sm-2">
+        <div class="col-sm-2" style="display: None">
           <div class="form-group">
             <div class="form-line">
               <label {% for error in form.frete.errors %}title="{{error}}"{% endfor %}>{{form.frete.label}}</label>
@@ -313,7 +338,7 @@
           </div>
         </div>
 
-        <div class="col-sm-2">
+        <div class="col-sm-2" style="display: None">
           <div class="form-group">
             <div class="form-line">
               <label {% for error in form.seguro.errors %}title="{{error}}"{% endfor %}>{{form.seguro.label}}</label>
@@ -323,13 +348,13 @@
           </div>
         </div>
 
-        <div class="col-sm-2">
-          <div class="form-group">
-            <div class="form-line" style="display: flex;">
-              <a href="javascript:void(0);" id="ratear_valores_btn" style="margin-top:25px;" class="btn btn-primary">Ratear valores</a><i class="material-icons" style="font-size: 20px;" title="O rateio do desconto, frete, despesas e seguro é feito de acordo com o valor total de cada produto. O rateio é utilizado para que a soma dos valores individuais de desconto, frete, despesas acessórias e seguro dos produtos gerem os valores totais na nota fiscal.">&#xE887;</i>
-            </div>
-          </div>
-        </div>
+        <!--<div class="col-sm-2">-->
+          <!--<div class="form-group">-->
+            <!--<div class="form-line" style="display: flex;">-->
+              <!--<a href="javascript:void(0);" id="ratear_valores_btn" style="margin-top:25px;" class="btn btn-primary">Ratear valores</a><i class="material-icons" style="font-size: 20px;" title="O rateio do desconto, frete, despesas e seguro é feito de acordo com o valor total de cada produto. O rateio é utilizado para que a soma dos valores individuais de desconto, frete, despesas acessórias e seguro dos produtos gerem os valores totais na nota fiscal.">&#xE887;</i>-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</div>-->
 
         <div class="col-sm-12" style="padding:0px;">
 
@@ -362,12 +387,12 @@
               </div>
             </div>
           </div>
-
+</div>
         </div>
 
         <div class="col-sm-12" style="padding:0px;">
           
-        <h4 style="border-bottom: 1px solid #afabab;">Produtos</h4>
+        <h4 style="border-bottom: 1px solid #afabab;">Opcionais</h4>
 
         {% include 'formset/formset_table.html' with formset=produtos_form title='Itens' %}
 
@@ -423,9 +448,9 @@
         {% include 'formset/formset_tr_field.html' with formset=pagamento_form table_class='pagamentos_table' %}
 
       </div>
-      <!-- #Tab PAGAMENTO -->
+       <!--Tab PAGAMENTO-->
 
-      <!-- Tab ESTOQUE -->
+       <!--Tab ESTOQUE-->
       <div role="tabpanel" class="tab-pane" id="tab_estoque">
 
         <div class="col-sm-6">
@@ -451,7 +476,7 @@
         </div>
 
       </div>
-      <!-- #Tab ESTOQUE -->
+       <!--#Tab ESTOQUE-->
         
       
     </div>

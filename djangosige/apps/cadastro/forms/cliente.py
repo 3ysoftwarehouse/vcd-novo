@@ -27,7 +27,7 @@ class ClienteForm(forms.ModelForm):
             'informacoes_adicionais': forms.Textarea(attrs={'class': 'form-control'}),
         }
         labels = {
-            'nome_razao_social': _('Razão Social'),
+            'nome_razao_social': _('Nome / Razão Social'),
             'tipo_pessoa': _(''),
             'limite_de_credito': _('Limite de Crédito'),
             'indicador_ie': _('Indicador da IE do Destinatário'),

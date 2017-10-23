@@ -118,7 +118,7 @@ class Compra(models.Model):
     # Estoque
     local_dest = models.ForeignKey(
         'estoque.LocalEstoque', related_name="compra_local_estoque", default=DEFAULT_LOCAL_ID)
-    movimentar_estoque = models.BooleanField(default=True)
+    movimentar_estoque = models.BooleanField(default=False)
     # Info
     data_emissao = models.DateField(null=True, blank=True)
     valor_total = models.DecimalField(max_digits=13, decimal_places=2, validators=[

@@ -5,5 +5,6 @@ from .empresa import Empresa, MinhaEmpresa
 from .cliente import Cliente
 from .fornecedor import Fornecedor
 from .transportadora import Transportadora, Veiculo
+from .passageiro import Passageiro
 
 from .produto import Produto, Unidade, Marca, Categoria, Cidade, ProdutoAcomodacao, ProdutoCidade, Opcional, Acomodacao
