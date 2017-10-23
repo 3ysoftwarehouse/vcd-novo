@@ -68,7 +68,7 @@ class AdicionarProspectView(CustomCreateView):
 class AdicionarContatoProspectView(CustomCreateView):
     form_class = ContatoProspectForm
     template_name = "vendas/prospect/contatoprospect_add.html"
-    success_message = "<b>Contato Prospect %(id)s </b>adicionado com sucesso."
+    success_message = "<b>Comentário do Prospect %(id)s </b>adicionado com sucesso."
     permission_codename = 'add_contatoprospect'
 
     def get_success_message(self, cleaned_data):
@@ -81,7 +81,7 @@ class AdicionarContatoProspectView(CustomCreateView):
         return self.view_context(context)
 
     def view_context(self, context):
-        context['title_complete'] = 'ADICIONAR CONTATO PROSPECT'
+        context['title_complete'] = 'ADICIONAR COMENTÁRIO AO PROSPECT Nº ' + str(context['prospect'].pk)
         context['return_url'] = reverse_lazy('vendas:listacontatoprospectview', kwargs={'pk':context['prospect'].pk})
         return context
 
@@ -243,7 +243,7 @@ class ContatoProspectListView(CustomListView):
         return self.view_context(context)
 
     def view_context(self, context):
-        context['title_complete'] = 'COMENTÁRIOS PROSPECT Nº' + str(context['prospect'].pk)
+        context['title_complete'] = 'COMENTÁRIOS DO PROSPECT Nº' + str(context['prospect'].pk)
         context['add_url'] = reverse_lazy('vendas:addcontatoprospectview', kwargs={'pk':context['prospect'].pk})
         context['return_url'] = reverse_lazy('vendas:listaprospectview')
         return context
@@ -395,7 +395,7 @@ class EditarContatoProspectView(CustomUpdateView):
     model = ContatoProspect
     form_class = ContatoProspectForm
     template_name = "vendas/prospect/contatoprospect_edit.html"
-    success_message = "<b>Contato Prospect %(id)s </b>editado com sucesso."
+    success_message = "<b>Comentários do Prospect %(id)s </b>editado com sucesso."
     permission_codename = 'change_prospect'
 
     def get_success_message(self, cleaned_data):
@@ -407,8 +407,7 @@ class EditarContatoProspectView(CustomUpdateView):
         return self.view_context(context)
 
     def view_context(self, context):
-        context['title_complete'] = 'EDITAR CONTATO PROSPECT N°' + \
-            str(self.object.id)
+        context['title_complete'] = 'EDITAR COMENTÁRIO DO PROSPECT PROSPECT N°' + str(context['prospect'].pk)
         context['return_url'] = reverse_lazy('vendas:listacontatoprospectview', kwargs={'pk':context['prospect'].pk})
         return context
 
