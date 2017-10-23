@@ -15,7 +15,7 @@
           {% csrf_token %}
           <div class="header">
             <h2>
-              {{title_complete}}
+              <a href="{{return_url}}"><i class="material-icons">&#xE5C4;</i></a>{{title_complete}}
             </h2>
               <div class="header-btn">
                 <a href="{{add_url}}" class="btn btn-success"><i class="material-icons">&#xE148;</i><span> ADICIONAR</span></a>
@@ -31,14 +31,10 @@
             <table id="lista-database" class="table table-bordered table-striped lista-table">
               <thead>
                 <tr>
-                  <th>#ID</th>                   
-                  <th>Passageiro</th>
-                  <th>Cliente</th>
-                  <th>Escola</th>
-                  <th>Cliente Sistema</th>
-                  <th>Email</th>
-                  <th>Telefone</th>
-                  <th>Comentários</th>
+                  <th>#ID</th>    
+                  <th>Prospect</th>               
+                  <th>Tipo de Contato</th>
+                  <th>Observação</th>
                   {% if request.user.is_superuser %}
                   <th>Remover</th>
                   {% endif %}
@@ -46,25 +42,21 @@
               </thead>
 
               <tbody>
-                {% for prospect in all_prospects %}
+                {% for contatoprospect in all_contatoprospects %}
                     {% if request.user.is_superuser %}
-                    <tr class="clickable-row" data-href="{% url 'vendas:editarprospectview' prospect.pk %}">
+                    <tr class="clickable-row" data-href="{% url 'vendas:editarcontatoprospectview' contatoprospect.pk %}">
                     {% else %}
                     <tr class="clickable-row" data-href=""></tr>
                     {% endif %}
-                        <td>{{prospect.pk}}</td>
-                        <td><b>{{prospect.passageiro}}</b></td>
-                        <td>{{prospect.cliente|default_if_none:""}}</td>
-                        <td>{{prospect.escola|default_if_none:""}}</td>
-                        <td>{{prospect.cliente_sistema|default_if_none:""}}</td>
-                        <td>{{prospect.email|default_if_none:""}}</td>
-                        <td>{{prospect.telefone|default_if_none:""}}</td>
-                        <td><a href="{% url 'vendas:listacontatoprospectview' prospect.pk %}">Visuálisar</a></td>
+                        <td>{{contatoprospect.pk}}</td>
+                        <td><b>{{contatoprospect.prospect}}</b></td>
+                        <td>{{contatoprospect.tipo_contato|default_if_none:""}}</td>
+                        <td>{{contatoprospect.observacao|default_if_none:""}}</td>
 
                         {% if request.user.is_superuser %}
                         <td class="lista-remove">
-                            <input type="checkbox" name="{{prospect.pk}}" id="remover-entrada-{{prospect.pk}}"/>
-                            <label class="remove-entry-label" for="remover-entrada-{{prospect.pk}}"></label>
+                            <input type="checkbox" name="{{contatoprospect.pk}}" id="remover-entrada-{{contatoprospect.pk}}"/>
+                            <label class="remove-entry-label" for="remover-entrada-{{contatoprospect.pk}}"></label>
                         </td>
                         {% endif %}
                     </tr>
