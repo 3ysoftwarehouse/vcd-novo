@@ -119,6 +119,17 @@ $.Admin.navbar = {
 
 //Mensagens
 $.Admin.messages = {
+    //Mensagens email
+    msgEmail: function(message){
+        $('#modal-msg-email .modal-header span i').text('error_outline').addClass('icon-alert');
+        $('#modal-msg-email .modal-body p').text(message);
+        $('#modal-msg-email .modal-title').text('Email de apresentação');
+        $('#modal-msg-email').modal('show');
+        $('#modal-msg-email #btn-enviar').show();
+        $('#modal-msg-email #btn-enviar').prop("disabled", true);
+        $('#id_excursao').val('');
+    },
+
     //Mensagens sucesso
     msgSucesso: function(message){
         $('#modal-msg .modal-header span i').text('done').addClass('icon-success');
@@ -156,6 +167,7 @@ $.Admin.messages = {
 //DataTable
 $.Admin.table = {
     init: function() {
+        var $btnEmail = $('.btn-send-email');
         var $btnRemove = $('.btn-remove');
 
         //Auto detect dates (dd/mm/yyyy) for sorting
@@ -222,6 +234,16 @@ $.Admin.table = {
             dTable.search($(this).val()).draw();
         });
 
+        //Mudar o background do tr quando email for selecionado
+        $('body').on('change', '.lista-email input[type=checkbox]', function(event){
+            if(this.checked){
+                $(this).parents('tr').addClass("delete-row");
+            }else{
+                $(this).parents('tr').removeClass("delete-row");
+            }
+            $btnEmail.show()
+        });
+
         //Mudar o background do tr quando remover for selecionado
         $('body').on('change', '.lista-remove input[type=checkbox]', function(event){
             if(this.checked){
@@ -232,12 +254,39 @@ $.Admin.table = {
             $btnRemove.show()
         });
 
+        //Perguntar antes de enviar Email da database
+        $btnEmail.on('click',function(event){
+            event.preventDefault();
+            var form = $(this).parents('form');
+            $.Admin.messages.msgEmail("Selecione uma Excursão para enviar emails de apresentação dos pacotes.");
+            $('#btn-enviar').one('click', function(){
+                try {
+                    if($("#send_email").val()){$("#send_email").val('')}else{$("#send_email").val('enviar')};
+                }catch(err) {};
+                form.submit();
+            });
+        });
+
+        //Desbloquar botão de envio do email
+        $('#id_excursao').change(function() {
+            if($('#id_excursao').val()){
+                $('#modal-msg-email #btn-enviar').prop("disabled", false);
+                $('#excursao').val($('#id_excursao').val());
+            }else{
+                $('#modal-msg-email #btn-enviar').prop("disabled", true);
+                $('#excursao').val('');
+            }
+        });
+
         //Perguntar antes de remover items da database
         $btnRemove.on('click',function(event){
             event.preventDefault();
             var form = $(this).parents('form');
             $.Admin.messages.msgRemove("Os items selecionados serão removidos permanentemente da Base de Dados.");
             $('#btn-sim').one('click', function(){
+                try {
+                    if($("#remove_itens").val()){ $("#remove_itens").val('')}else{$("#remove_itens").val('remover')};
+                }catch(err) {};
                 form.submit();
             });
         });

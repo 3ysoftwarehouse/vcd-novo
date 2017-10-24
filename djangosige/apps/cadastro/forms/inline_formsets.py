@@ -5,8 +5,20 @@ from django.forms import inlineformset_factory
 from django.utils.translation import ugettext_lazy as _
 from decimal import Decimal
 
+from django.forms import modelformset_factory
+from djangosige.apps.cadastro.models import Pessoa, Endereco, Telefone, Email, Site, Banco, Documento, Produto, ProdutoCidade, ProdutoAcomodacao, Cidade, Acomodacao, DocumentoProduto
 
-from djangosige.apps.cadastro.models import Pessoa, Endereco, Telefone, Email, Site, Banco, Documento, Produto, ProdutoCidade, ProdutoAcomodacao, Cidade, Acomodacao
+
+class DocumentoProdutoForm(forms.ModelForm):
+    class Meta:
+        model = DocumentoProduto
+        fields = '__all__'
+        widgets = {
+            'arquivo': forms.FileInput(attrs={'class': 'form-control'})
+        }
+        labels = {
+            'arquivo': _('Anexe um arquivo'),
+        }
 
 
 class EnderecoForm(forms.ModelForm):
@@ -165,3 +177,5 @@ BancoFormSet = inlineformset_factory(
     Pessoa, Banco, form=BancoForm, extra=1, can_delete=True)
 DocumentoFormSet = inlineformset_factory(
     Pessoa, Documento, form=DocumentoForm, extra=1, can_delete=True)
+DocumentoProdutoFormSet = modelformset_factory(DocumentoProduto, 
+    form=DocumentoProdutoForm, extra=1, can_delete=True)

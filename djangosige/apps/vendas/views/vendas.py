@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from django.core.mail import EmailMultiAlternatives
 from django.core.urlresolvers import reverse_lazy
 from django.shortcuts import redirect
 from django.http import HttpResponse
@@ -8,7 +9,7 @@ from djangosige.apps.base.custom_views import CustomView, CustomCreateView, Cust
 
 from djangosige.apps.vendas.forms import OrcamentoVendaForm, PedidoVendaForm, ItensVendaFormSet, PagamentoFormSet, ProspectForm, ContatoProspectForm
 from djangosige.apps.vendas.models import OrcamentoVenda, PedidoVenda, ItensVenda, Pagamento, Prospect, ContatoProspect
-from djangosige.apps.cadastro.models import MinhaEmpresa, Cliente
+from djangosige.apps.cadastro.models import MinhaEmpresa, Cliente, Categoria
 from djangosige.apps.login.models import Usuario
 from djangosige.configs.settings import MEDIA_ROOT
 
@@ -227,8 +228,46 @@ class ProspectListView(CustomListView):
     def view_context(self, context):
         context['title_complete'] = 'PROSPECTS'
         context['add_url'] = reverse_lazy('vendas:addprospectview')
+        context['excursoes'] = Categoria.objects.all()
         return context
 
+    def post(self, request, *args, **kwargs):
+        if request.POST.get('send_email'):
+            # Enviar Emails
+            to_email = []
+            for key, value in request.POST.items():
+                if key[:5] == 'email' and value == "on":
+                    prospect = Prospect.objects.get(pk=key[6:])
+                    to_email.append(prospect.email)
+
+            excursao = Categoria.objects.get(pk=request.POST.get('excursao'))
+            pacotes = Produto.objects.filter(categoria=excursao)
+            
+            context_email = {}
+            #template = render_to_string('template...',context_email)
+            subject = 'VCD'
+            from_email = 'contato@vcd.com.br'
+            text_content = excursao.categoria_desc
+
+            msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+            #msg.attach_alternative(template, "text/html")
+            for documento in pacotes.documentos.all():
+                msg.attach(documento.name, documento.read(), documento.content_type)
+            msg.send()
+            
+            
+            return redirect(self.success_url)
+
+        if request.POST.get('remove_itens'): 
+            # Remover itens
+            if self.check_user_delete_permission(request, self.model):
+                for key, value in request.POST.items():
+                    if key[:6] == 'remove' and value == "on":
+                        print(key[7:])
+                        prospect = Prospect.objects.get(pk=key[7:])
+                        prospect.delete()
+
+            return redirect(self.success_url)
 
 class ContatoProspectListView(CustomListView):
     template_name = 'vendas/prospect/contatoprospect_list.html'
@@ -389,6 +428,24 @@ class EditarProspectView(CustomUpdateView):
             return self.form_valid(form)
 
         return self.form_invalid(form=form)
+
+
+class ContratarProspectView(CustomView):
+    permission_codename = ['change_prospect']
+
+    def get(self, request, *args, **kwargs):
+        pk = kwargs.get('pk', None)
+        if not pk:
+            return redirect(reverse_lazy('vendas:listaprospectview'))
+
+        prospect = Prospect.objects.get(pk=pk)
+        if prospect.emissor:
+            return redirect(reverse_lazy('vendas:listaprospectview'))
+
+        prospect.emissor = request.user
+        prospect.save()
+
+        return redirect(reverse_lazy('vendas:listaprospectview'))
 
 
 class EditarContatoProspectView(CustomUpdateView):

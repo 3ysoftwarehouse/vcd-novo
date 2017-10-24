@@ -5,6 +5,8 @@ from .vendas import (AdicionarOrcamentoVendaView, AdicionarPedidoVendaView, Orca
                      PedidoVendaAtrasadosListView, PedidoVendaEntregaHojeListView, EditarOrcamentoVendaView,
                      EditarPedidoVendaView, GerarPedidoVendaView, CancelarOrcamentoVendaView,
                      CancelarPedidoVendaView, GerarCopiaOrcamentoVendaView, GerarCopiaPedidoVendaView,
-                     GerarPDFOrcamentoVenda, GerarPDFPedidoVenda, AdicionarProspectView, ProspectListView, EditarProspectView, AdicionarContatoProspectView, ContatoProspectListView, EditarContatoProspectView)
+                     GerarPDFOrcamentoVenda, GerarPDFPedidoVenda, AdicionarProspectView, ProspectListView, 
+                     EditarProspectView, AdicionarContatoProspectView, ContatoProspectListView, EditarContatoProspectView,
+                     ContratarProspectView)
 from .pagamento import *
 from .ajax_views import InfoVenda

@@ -3,7 +3,7 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
-from djangosige.apps.cadastro.models import Produto, Unidade, Marca, Categoria, Fornecedor, Opcional, Cidade, Acomodacao
+from djangosige.apps.cadastro.models import Produto, Unidade, Marca, Categoria, Fornecedor, Opcional, Cidade, Acomodacao, DocumentoProduto
 from djangosige.apps.estoque.models import LocalEstoque
 
 from decimal import Decimal

@@ -7,4 +7,4 @@ from .fornecedor import Fornecedor
 from .transportadora import Transportadora, Veiculo
 from .passageiro import Passageiro
 
-from .produto import Produto, Unidade, Marca, Categoria, Cidade, ProdutoAcomodacao, ProdutoCidade, Opcional, Acomodacao
+from .produto import Produto, Unidade, Marca, Categoria, Cidade, ProdutoAcomodacao, ProdutoCidade, Opcional, Acomodacao, DocumentoProduto
