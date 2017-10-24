@@ -9,7 +9,7 @@ from djangosige.apps.base.custom_views import CustomView, CustomCreateView, Cust
 
 from djangosige.apps.vendas.forms import OrcamentoVendaForm, PedidoVendaForm, ItensVendaFormSet, PagamentoFormSet, ProspectForm, ContatoProspectForm
 from djangosige.apps.vendas.models import OrcamentoVenda, PedidoVenda, ItensVenda, Pagamento, Prospect, ContatoProspect
-from djangosige.apps.cadastro.models import MinhaEmpresa, Cliente, Categoria
+from djangosige.apps.cadastro.models import MinhaEmpresa, Cliente, Categoria, Produto
 from djangosige.apps.login.models import Usuario
 from djangosige.configs.settings import MEDIA_ROOT
 
@@ -242,18 +242,20 @@ class ProspectListView(CustomListView):
 
             excursao = Categoria.objects.get(pk=request.POST.get('excursao'))
             pacotes = Produto.objects.filter(categoria=excursao)
-            
             context_email = {}
             #template = render_to_string('template...',context_email)
             subject = 'VCD'
             from_email = 'contato@vcd.com.br'
             text_content = excursao.categoria_desc
 
-            msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+            msg = EmailMultiAlternatives(subject, text_content, from_email, to_email)
             #msg.attach_alternative(template, "text/html")
-            for documento in pacotes.documentos.all():
-                msg.attach(documento.name, documento.read(), documento.content_type)
+            
+            for pacote in pacotes:
+                for documento in pacote.documentos.all():
+                    msg.attach(documento.arquivo.name, documento.arquivo.read())
             msg.send()
+            
             
             
             return redirect(self.success_url)
