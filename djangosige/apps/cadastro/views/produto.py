@@ -5,7 +5,7 @@ from django.db.models import F
 
 from djangosige.apps.base.custom_views import CustomCreateView, CustomListView, CustomUpdateView
 from djangosige.apps.cadastro.forms import ProdutoForm, CategoriaForm, UnidadeForm, MarcaForm,OpcionalForm, AcomodacaoForm, CidadeForm
-from djangosige.apps.cadastro.models import Produto, Categoria, Unidade, Marca, Fornecedor, Cidade, Opcional, Acomodacao
+from djangosige.apps.cadastro.models import Produto, Categoria, Unidade, Marca, Fornecedor, Cidade, Opcional, Acomodacao, DocumentoProduto
 from djangosige.apps.estoque.models import ItensMovimento, EntradaEstoque, ProdutoEstocado
 from djangosige.apps.cadastro.forms import ProdutoAcomodacaoFormSet, ProdutoCidadeFormSet, DocumentoProdutoFormSet
 
@@ -28,7 +28,7 @@ class AdicionarProdutoView(CustomCreateView):
         context['return_url'] = reverse_lazy('cadastro:listaprodutosview')
         context['acomodacao_form'] = ProdutoAcomodacaoFormSet(prefix='acomodacao_form')
         context['cidade_form'] = ProdutoCidadeFormSet(prefix='cidade_form')
-        context['documento_form'] = DocumentoProdutoFormSet(prefix='documento_form')
+        context['documento_form'] = DocumentoProdutoFormSet(queryset=DocumentoProduto.objects.none(),prefix='documento_form')
         return context
 
     def get(self, request, *args, **kwargs):
@@ -59,7 +59,7 @@ class AdicionarProdutoView(CustomCreateView):
         form = self.get_form(form_class)
         acomodacao_form = ProdutoAcomodacaoFormSet(request.POST,prefix='acomodacao_form')
         cidade_form = ProdutoCidadeFormSet(request.POST,prefix='cidade_form')
-        documento_form = DocumentoProdutoFormSet(request.POST,prefix='documento_form')
+        documento_form = DocumentoProdutoFormSet(request.POST, request.FILES,prefix='documento_form')
 
         formsets = [acomodacao_form, cidade_form]
 
@@ -168,12 +168,11 @@ class EditarProdutoView(CustomUpdateView):
 
     def get_context_data(self, **kwargs):
         context = super(EditarProdutoView, self).get_context_data(**kwargs)
-        documentos = self.object.documentos.all()
 
         context['return_url'] = reverse_lazy('cadastro:listaprodutosview')
         context['acomodacao_form'] = ProdutoAcomodacaoFormSet(instance=self.object,prefix='acomodacao_form')
         context['cidade_form'] = ProdutoCidadeFormSet(instance=self.object,prefix='cidade_form')
-        context['documento_form'] = DocumentoProdutoFormSet(queryset=documentos, prefix='documento_form')
+        context['documento_form'] = DocumentoProdutoFormSet(queryset=DocumentoProduto.objects.none(), prefix='documento_form')
 
         return context
 
@@ -202,6 +201,9 @@ class EditarProdutoView(CustomUpdateView):
         form = form_class(request.POST, instance=self.object)
         acomodacao_form = ProdutoAcomodacaoFormSet(request.POST, prefix='acomodacao_form', instance=self.object)
         cidade_form = ProdutoCidadeFormSet(request.POST, prefix='cidade_form', instance=self.object)
+        cidade_form = ProdutoCidadeFormSet(request.POST, prefix='cidade_form', instance=self.object)
+        documento_form = DocumentoProdutoFormSet(request.POST, request.FILES, prefix='documento_form')
+
         formsets = [acomodacao_form, cidade_form]
 
         if form.is_valid():
@@ -219,6 +221,9 @@ class EditarProdutoView(CustomUpdateView):
                 cid = cidade_form.save()
 
             if documento_form.is_valid():
+                for documento in self.object.documentos.all():
+                    documento.delete()
+                    
                 documentos = documento_form.save(commit=False)
                 for documento in documentos:
                     documento.save()
