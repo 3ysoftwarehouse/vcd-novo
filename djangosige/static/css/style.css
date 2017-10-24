@@ -972,6 +972,8 @@ div.table-responsive > div.dataTables_wrapper > div.row > div[class^="col-"]:las
     .card .header .header-btn{
       float:right;
       margin-right:10px; }
+      .card .header .header-btn .btn-send-email{
+        display: none; }
       .card .header .header-btn .btn-remove{
         display: none; }
       .card .header .header-btn .dropdown a{
@@ -1338,12 +1340,16 @@ fieldset[disabled] .form-control {
   .lista .lista-content .lista-table tbody tr .red_td:hover{
     background: #e5c5c5;
     cursor: pointer; }
+  .lista .lista-content .lista-table .lista-email{
+    text-align:center; }
+    .lista .lista-content .lista-table .lista-email .email-entry-label{
+      vertical-align:middle;
+      margin-bottom: 0px; }
   .lista .lista-content .lista-table .lista-remove{
     text-align:center; }
     .lista .lista-content .lista-table .lista-remove .remove-entry-label{
       vertical-align:middle;
       margin-bottom: 0px; }
-
 .lista-table .delete-row,
 .lista-table .delete-row:hover,
 .lista-table .delete-row:active{

@@ -7,7 +7,7 @@ from djangosige.apps.base.custom_views import CustomCreateView, CustomListView, 
 from djangosige.apps.cadastro.forms import ProdutoForm, CategoriaForm, UnidadeForm, MarcaForm,OpcionalForm, AcomodacaoForm, CidadeForm
 from djangosige.apps.cadastro.models import Produto, Categoria, Unidade, Marca, Fornecedor, Cidade, Opcional, Acomodacao
 from djangosige.apps.estoque.models import ItensMovimento, EntradaEstoque, ProdutoEstocado
-from djangosige.apps.cadastro.forms import ProdutoAcomodacaoFormSet, ProdutoCidadeFormSet
+from djangosige.apps.cadastro.forms import ProdutoAcomodacaoFormSet, ProdutoCidadeFormSet, DocumentoProdutoFormSet
 
 from datetime import datetime
 
@@ -28,6 +28,7 @@ class AdicionarProdutoView(CustomCreateView):
         context['return_url'] = reverse_lazy('cadastro:listaprodutosview')
         context['acomodacao_form'] = ProdutoAcomodacaoFormSet(prefix='acomodacao_form')
         context['cidade_form'] = ProdutoCidadeFormSet(prefix='cidade_form')
+        context['documento_form'] = DocumentoProdutoFormSet(prefix='documento_form')
         return context
 
     def get(self, request, *args, **kwargs):
@@ -58,6 +59,7 @@ class AdicionarProdutoView(CustomCreateView):
         form = self.get_form(form_class)
         acomodacao_form = ProdutoAcomodacaoFormSet(request.POST,prefix='acomodacao_form')
         cidade_form = ProdutoCidadeFormSet(request.POST,prefix='cidade_form')
+        documento_form = DocumentoProdutoFormSet(request.POST,prefix='documento_form')
 
         formsets = [acomodacao_form, cidade_form]
 
@@ -114,6 +116,12 @@ class AdicionarProdutoView(CustomCreateView):
 
                     cidade_form.instance = self.object
                     cid = cidade_form.save()
+                
+                if documento_form.is_valid():
+                    documentos = documento_form.save(commit=False)
+                    for documento in documentos:
+                        documento.save()
+                        self.object.documentos.add(documento)
 
             return self.form_valid(form)
 
@@ -160,9 +168,13 @@ class EditarProdutoView(CustomUpdateView):
 
     def get_context_data(self, **kwargs):
         context = super(EditarProdutoView, self).get_context_data(**kwargs)
+        documentos = self.object.documentos.all()
+
         context['return_url'] = reverse_lazy('cadastro:listaprodutosview')
         context['acomodacao_form'] = ProdutoAcomodacaoFormSet(instance=self.object,prefix='acomodacao_form')
         context['cidade_form'] = ProdutoCidadeFormSet(instance=self.object,prefix='cidade_form')
+        context['documento_form'] = DocumentoProdutoFormSet(queryset=documentos, prefix='documento_form')
+
         return context
 
     def post(self, request, *args, **kwargs):
@@ -205,6 +217,13 @@ class EditarProdutoView(CustomUpdateView):
 
                 cidade_form.instance = self.object
                 cid = cidade_form.save()
+
+            if documento_form.is_valid():
+                documentos = documento_form.save(commit=False)
+                for documento in documentos:
+                    documento.save()
+                    self.object.documentos.add(documento)
+
             return self.form_valid(form)
 
         return self.form_invalid(form)

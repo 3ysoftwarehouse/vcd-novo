@@ -1,0 +1,29 @@
+<!-- Modal de alerta de mensagem-->
+<div id="modal-msg-email" class="modal fade modal-msg" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <span>
+          <i class="material-icons"></i>
+          <h4 class="modal-title"></h4>
+        </span>
+      </div>
+      <div class="modal-body">
+        <p></p>
+        <br/>
+        <select id="id_excursao" name="id_excursao" class="form-control">
+            <option value="" selected="">---------</option>
+            {% for excursao in excursoes %}
+                <option value="{{excursao.pk}}">{{excursao}}</option>
+            {% endfor %}         
+        </select>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="btn-enviar" data-dismiss="modal">ENVIAR</button>
+        <button type="button" class="btn btn-primary" id="btn-cancelar" data-dismiss="modal">CANCELAR</button>
+      </div>
+    </div>
+
+  </div>
+</div>

@@ -85,6 +85,13 @@ class Unidade(models.Model):
         return s
 
 
+class DocumentoProduto(models.Model):
+    arquivo = models.FileField()
+
+    class Meta:
+        verbose_name = "Documento"
+
+
 class Produto(models.Model):
     # Dados gerais
     codigo = models.CharField(max_length=15, null=True, blank=True)
@@ -128,6 +135,8 @@ class Produto(models.Model):
                                      null=True, blank=True)
     acomodacoes = models.ManyToManyField('Acomodacao', through='ProdutoAcomodacao', through_fields=('produto','acomodacao'),
                                      null=True, blank=True)
+
+    documentos = models.ManyToManyField('DocumentoProduto', null=True, blank=True)
 
     class Meta:
         verbose_name = "Produto"
