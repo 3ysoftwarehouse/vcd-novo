@@ -122,7 +122,7 @@
                             <span>Página Inicial</span>
                         </a>
                     </li>
-
+{%if request.user.is_superuser %}
                     <li>
                         <a href="javascript:void(0);" class="menu-toggle">
                             <i class="material-icons">&#xE85D;</i>
@@ -196,18 +196,20 @@
 
                         </ul>
                     </li>
-
+{%endif%}
                     <li>
                         <a href="javascript:void(0);" class="menu-toggle">
                             <i class="material-icons">&#xE54E;</i>
                             <span>Vendas</span>
                         </a>
                         <ul class="ml-menu">
+
                             <li>
                                 <a href="{% url 'vendas:listaorcamentovendaview' %}">
                                     Cotação
                                 </a>
                             </li>
+{%if request.user.is_superuser %}
 
                             <li>
                                 <a href="{% url 'vendas:listapedidovendaview' %}">
@@ -220,7 +222,7 @@
                                     Condições de pagamento
                                 </a>
                             </li>
-
+{%endif%}
                             <li>
                                 <a href="{% url 'vendas:listaprospectview' %}">
                                     Prospect
@@ -328,7 +330,7 @@
 
                         <!--</ul>-->
                     <!--</li>-->
-
+{%if request.user.is_superuser %}
                     <li>
                         <a href="javascript:void(0);" class="menu-toggle">
                             <i class="material-icons">&#xE227;</i>
@@ -395,7 +397,7 @@
 
                         </ul>
                     </li>
-
+{%endif%}
                     <!--<li>-->
                         <!--<a href="javascript:void(0);" class="menu-toggle">-->
                             <!--<i class="material-icons">&#xE1BD;</i>-->

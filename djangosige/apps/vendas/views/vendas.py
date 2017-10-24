@@ -276,7 +276,7 @@ class ContatoProspectListView(CustomListView):
     model = ContatoProspect
     context_object_name = 'all_contatoprospects'
     success_url = reverse_lazy('vendas:listacontatoprospectview')
-    permission_codename = 'view_prospect'
+    # permission_codename = 'view_prospect'
     
     def get_context_data(self, **kwargs):
         context = super(ContatoProspectListView, self).get_context_data(**kwargs)
@@ -455,7 +455,7 @@ class EditarContatoProspectView(CustomUpdateView):
     form_class = ContatoProspectForm
     template_name = "vendas/prospect/contatoprospect_edit.html"
     success_message = "<b>Comentários do Prospect %(id)s </b>editado com sucesso."
-    permission_codename = 'change_prospect'
+    permission_codename = 'change_contatoprospect'
 
     def get_success_message(self, cleaned_data):
         return self.success_message % dict(cleaned_data, id=self.object.pk)

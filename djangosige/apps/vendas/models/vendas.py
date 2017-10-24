@@ -501,13 +501,25 @@ class Prospect(models.Model):
     def __str__(self):
         return self.passageiro
 
+    class Meta:
+        verbose_name = "Prospect"
+        permissions = (
+            ("view_prospect", "Can view prospect"),
+        )
+
 
 class ContatoProspect(models.Model):
     prospect = models.ForeignKey(Prospect, related_name="prospect",
-                                on_delete=models.DO_NOTHING)
+                                on_delete=models.CASCADE)
     tipo_contato = models.CharField(
         max_length=1, choices=TIPO_CONTATO, null=True, blank=True)
     observacao = models.CharField(max_length=500, null=True, blank=True)
     emissor = models.ForeignKey('auth.User')
+
+    class Meta:
+        verbose_name = "Contato Prospect"
+        permissions = (
+            ("view_contatoprospect", "Can view Contato prospect"),
+        )
 
     #Adicionar o timestamp

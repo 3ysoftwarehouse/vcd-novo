@@ -13,7 +13,7 @@ class ProspectForm(forms.ModelForm):
 
     class Meta:
         model = Prospect
-        fields = ('emissor', 'passageiro', 'cliente', 'escola', 'email', 'telefone', 'cliente_sistema', 'observacao')
+        fields = ('emissor', 'passageiro', 'cliente', 'escola', 'email', 'telefone', 'observacao')
 
         widgets = {
             'emissor': forms.Select(attrs={'class': 'form-control'}),
@@ -22,7 +22,6 @@ class ProspectForm(forms.ModelForm):
             'escola': forms.Select(attrs={'class': 'form-control'}),
             'email': forms.TextInput(attrs={'class': 'form-control'}),
             'telefone': forms.TextInput(attrs={'class': 'form-control telefone'}),
-            'cliente_sistema': forms.Select(attrs={'class': 'form-control'}),
             'observacao': forms.TextInput(attrs={'class': 'form-control'}),
         }
 
@@ -33,7 +32,6 @@ class ProspectForm(forms.ModelForm):
             'escola': _('Escola'),
             'email': _('Email'),
             'telefone': _('Telefone'),
-            'cliente_sistema': _('Cliente do Sistema'),
             'observacao': _('Observação'),
         }
 

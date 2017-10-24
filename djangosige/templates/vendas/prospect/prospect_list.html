@@ -41,23 +41,17 @@
                   <th>Escola</th>
                   <th>Email</th>
                   <th>Telefone</th>
-                  <th>Contratos</th>
+                  <th>Emissor</th>
                   <th>Comentários</th>
-                  {% if request.user.is_superuser %}
                   <th>Email</th>
                   <th>Remover</th>
-                  {% endif %}
                 </tr>
               </thead>
 
               <tbody>
                 {% for prospect in all_prospects %}
                     {% if request.user == prospect.emissor or request.user.is_superuser or not prospect.emissor %}
-                      {% if request.user.is_superuser %}
                       <tr class="clickable-row" data-href="{% url 'vendas:editarprospectview' prospect.pk %}">
-                      {% else %}
-                      <tr class="clickable-row" data-href=""></tr>
-                      {% endif %}
                           <td>{{prospect.pk}}</td>
                           <td><b>{{prospect.passageiro}}</b></td>
                           <td>{{prospect.cliente|default_if_none:""}}</td>
@@ -66,20 +60,19 @@
                           <td>{{prospect.telefone|default_if_none:""}}</td>
 
                           {% if prospect.emissor %}
-                          <td><b>Contratado</b></td>
+                          <td><b>{{prospect.emissor.username}}</b></td>
                           {% elif not prospect.emissor and request.user.is_superuser %}
-                          <td><b>Vago</b></td>
+                          <td><b>Sem emissor</b></td>
                           {% else %}
                           <td>
-                            <a href="{% url 'vendas:contratarprospectview' prospect.pk %}">Contratar</a>
+                            <a href="{% url 'vendas:contratarprospectview' prospect.pk %}">Aceitar</a>
                           </td>
                           {% endif %}
 
                           <td>
-                            <a href="{% url 'vendas:listacontatoprospectview' prospect.pk %}">Visuálisar</a>
+                            <a href="{% url 'vendas:listacontatoprospectview' prospect.pk %}">Visualisar</a>
                           </td>
 
-                          {% if request.user.is_superuser %}
                           {% if prospect.email %}
                             <td class="lista-email">
                                 <input type="checkbox" name="email-{{prospect.pk}}" id="email-entrada-{{prospect.pk}}"/>
@@ -92,7 +85,6 @@
                               <input type="checkbox" name="remove-{{prospect.pk}}" id="remover-entrada-{{prospect.pk}}"/>
                               <label class="remove-entry-label" for="remover-entrada-{{prospect.pk}}"></label>
                           </td>
-                          {% endif %}
 
                       </tr>
                     {% endif %}
