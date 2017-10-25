@@ -32,7 +32,8 @@ TIPO_CONTATO = (
     (u'2', u'Reunião'),
     (u'3', u'Proposta'),
     (u'4', u'Ligação'),
-    (u'5', u'Email'),
+    (u'5', u'WhatsApp'),
+    (u'6', u'Email'),
 
 )
 

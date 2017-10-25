@@ -10,14 +10,14 @@ DEFAULT_DATABASE_URL = ''
 #
 DEFAULT_FROM_EMAIL = ''
 
-EMAIL_HOST = 'smtp.gmail.com'  # Gmail
+EMAIL_HOST = 'smtp.viajecomdarcy.com.br'  # Gmail
 # EMAIL_HOST = 'smtp.live.com' #Hotmail
 
 # Usuário do email padrão
-EMAIL_HOST_USER = ''
+EMAIL_HOST_USER = 'contato=viajecomdarcy.com.br'
 
 # Senha do email padrão
-EMAIL_HOST_PASSWORD = ''
+EMAIL_HOST_PASSWORD = '+vcdco'
 
 # Verificar a port utilizada pelo serviço de email
 EMAIL_PORT = 587

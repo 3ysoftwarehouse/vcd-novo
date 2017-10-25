@@ -11,7 +11,7 @@ from djangosige.apps.vendas.forms import OrcamentoVendaForm, PedidoVendaForm, It
 from djangosige.apps.vendas.models import OrcamentoVenda, PedidoVenda, ItensVenda, Pagamento, Prospect, ContatoProspect
 from djangosige.apps.cadastro.models import MinhaEmpresa, Cliente, Categoria, Produto
 from djangosige.apps.login.models import Usuario
-from djangosige.configs.settings import MEDIA_ROOT
+from djangosige.configs.settings import MEDIA_ROOT, EMAIL_HOST_USER
 
 from geraldo.generators import PDFGenerator
 from datetime import datetime
@@ -244,8 +244,8 @@ class ProspectListView(CustomListView):
             pacotes = Produto.objects.filter(categoria=excursao)
             context_email = {}
             #template = render_to_string('template...',context_email)
-            subject = 'VCD'
-            from_email = 'contato@vcd.com.br'
+            subject = 'Apresentação de Pacotes - ' + excursao.categoria_desc
+            from_email = 'contato@viajecomdarcy.com.br'
             text_content = excursao.categoria_desc
 
             msg = EmailMultiAlternatives(subject, text_content, from_email, to_email)
@@ -399,9 +399,6 @@ class EditarProspectView(CustomUpdateView):
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
 
-        if not request.user.is_superuser:
-            return redirect(reverse_lazy('vendas:listaprospectview'))
-
         form = self.get_form(self.form_class)
 
         return self.render_to_response(self.get_context_data(form=form))
@@ -409,9 +406,6 @@ class EditarProspectView(CustomUpdateView):
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
 
-        if not request.user.is_superuser:
-            return redirect(reverse_lazy('vendas:listaprospectview'))
-        
         form = self.get_form(self.form_class)
 
         if form.is_valid():
