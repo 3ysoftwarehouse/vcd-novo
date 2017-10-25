@@ -22,9 +22,33 @@
           </div>
           <!--# Header-->
 
+          
           <form id="prospect_form_edit" role="form" action="" method="post">
             {% csrf_token %}
             {% include 'vendas/prospect_form.html' %}
+          </form>
+
+          {% if contatos %}
+          <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <hr noshade=”noshade” width="90%" size="20px" />
+                <div class="row">
+                  {% for contato in contatos %}
+                  <div class="col-sm-12">
+                    <div style="color:#c1c1c1;margin-left:10%;">
+                      <b>{{contato.get_message_formated}}</b>
+                    </div>
+                  </div>
+                  {% endfor %}
+                </div>
+                <hr noshade=”noshade” width="90%" size="20px" />
+            </div>
+          </div>
+          {% endif %}
+          
+          <form id="contatoprospect_form_add" role="form" action="{{add_url}}" method="post">
+            {% csrf_token %}
+            {% include 'vendas/contatoprospect_form.html' %}
           </form>
 
         </div>

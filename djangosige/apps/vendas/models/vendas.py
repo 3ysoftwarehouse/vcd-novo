@@ -513,9 +513,10 @@ class ContatoProspect(models.Model):
     prospect = models.ForeignKey(Prospect, related_name="prospect",
                                 on_delete=models.CASCADE)
     tipo_contato = models.CharField(
-        max_length=1, choices=TIPO_CONTATO, null=True, blank=True)
-    observacao = models.CharField(max_length=500, null=True, blank=True)
+        max_length=1, choices=TIPO_CONTATO)
+    observacao = models.CharField(max_length=500)
     emissor = models.ForeignKey('auth.User')
+    #data = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         verbose_name = "Contato Prospect"
@@ -523,4 +524,5 @@ class ContatoProspect(models.Model):
             ("view_contatoprospect", "Can view Contato prospect"),
         )
 
-    #Adicionar o timestamp
+    def get_message_formated(self):
+        return str(self.emissor.first_name) + ' entrou em contato por ' + str(TIPO_CONTATO[int(self.tipo_contato)][1]) + '. OBS: ' + str(self.observacao) 

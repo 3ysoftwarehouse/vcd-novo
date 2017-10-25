@@ -37,6 +37,7 @@ class AdicionarProspectView(CustomCreateView):
     def view_context(self, context):
         context['title_complete'] = 'ADICIONAR PROSPECT'
         context['return_url'] = reverse_lazy('vendas:listaprospectview')
+        context['editar_view'] = False
         return context
 
     def get(self, request, *args, **kwargs):
@@ -75,22 +76,6 @@ class AdicionarContatoProspectView(CustomCreateView):
     def get_success_message(self, cleaned_data):
         return self.success_message % dict(cleaned_data, id=self.object.pk)
 
-    def get_context_data(self, **kwargs):
-        context = super(AdicionarContatoProspectView, self).get_context_data(**kwargs)
-        context['prospect'] = Prospect.objects.get(pk=self.kwargs['pk'])
-
-        return self.view_context(context)
-
-    def view_context(self, context):
-        context['title_complete'] = 'ADICIONAR COMENTÁRIO AO PROSPECT Nº ' + str(context['prospect'].pk)
-        context['return_url'] = reverse_lazy('vendas:listacontatoprospectview', kwargs={'pk':context['prospect'].pk})
-        return context
-
-    def get(self, request, *args, **kwargs):
-        self.object = None
-        form = self.get_form(self.form_class)
-        return self.render_to_response(self.get_context_data(form=form))
-
     def post(self, request, *args, **kwargs):
         self.object = None
 
@@ -102,7 +87,7 @@ class AdicionarContatoProspectView(CustomCreateView):
             self.object.emissor = request.user
             self.object.save()
             
-            return redirect(reverse_lazy('vendas:listacontatoprospectview', kwargs={'pk':self.kwargs['pk']}))
+            return redirect(reverse_lazy('vendas:editarprospectview', kwargs={'pk':self.kwargs['pk']}))
 
         return self.form_invalid(form=form)
 
@@ -271,26 +256,7 @@ class ProspectListView(CustomListView):
 
             return redirect(self.success_url)
 
-class ContatoProspectListView(CustomListView):
-    template_name = 'vendas/prospect/contatoprospect_list.html'
-    model = ContatoProspect
-    context_object_name = 'all_contatoprospects'
-    success_url = reverse_lazy('vendas:listacontatoprospectview')
-    # permission_codename = 'view_prospect'
-    
-    def get_context_data(self, **kwargs):
-        context = super(ContatoProspectListView, self).get_context_data(**kwargs)
-        context['prospect'] = Prospect.objects.get(pk=self.kwargs['pk'])
-        return self.view_context(context)
 
-    def view_context(self, context):
-        context['title_complete'] = 'COMENTÁRIOS DO PROSPECT Nº' + str(context['prospect'].pk)
-        context['add_url'] = reverse_lazy('vendas:addcontatoprospectview', kwargs={'pk':context['prospect'].pk})
-        context['return_url'] = reverse_lazy('vendas:listaprospectview')
-        return context
-
-    def get_queryset(self, **kwargs):
-        return ContatoProspect.objects.filter(prospect=self.kwargs['pk'])
 
 class VendaListView(CustomListView):
 
@@ -394,19 +360,40 @@ class EditarProspectView(CustomUpdateView):
         context['title_complete'] = 'EDITAR PROSPECT N°' + \
             str(self.object.id)
         context['return_url'] = reverse_lazy('vendas:listaprospectview')
+        context['add_url'] = reverse_lazy('vendas:addcontatoprospectview', kwargs={'pk':self.object.pk})
+        context['contatos'] = ContatoProspect.objects.filter(prospect=self.object)
+        context['editar_view'] = True
         return context
 
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
 
         form = self.get_form(self.form_class)
+        form_contato = ContatoProspectForm()
+        if not request.user.is_superuser:
+            form.fields['emissor'].widget.attrs['disabled'] = True
+            form.fields['passageiro'].widget.attrs['disabled'] = True
+            form.fields['cliente'].widget.attrs['disabled'] = True
+            form.fields['escola'].widget.attrs['disabled'] = True
+            form.fields['email'].widget.attrs['disabled'] = True
+            form.fields['telefone'].widget.attrs['disabled'] = True
+            form.fields['observacao'].widget.attrs['disabled'] = True
 
-        return self.render_to_response(self.get_context_data(form=form))
+        return self.render_to_response(self.get_context_data(form=form, form_contato=form_contato))
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
 
         form = self.get_form(self.form_class)
+        form_contato = ContatoProspectForm()
+        if not request.user.is_superuser:
+            form.fields['emissor'].widget.attrs['disabled'] = True
+            form.fields['passageiro'].widget.attrs['disabled'] = True
+            form.fields['cliente'].widget.attrs['disabled'] = True
+            form.fields['escola'].widget.attrs['disabled'] = True
+            form.fields['email'].widget.attrs['disabled'] = True
+            form.fields['telefone'].widget.attrs['disabled'] = True
+            form.fields['observacao'].widget.attrs['disabled'] = True
 
         if form.is_valid():
             self.object = form.save(commit=False)
@@ -423,7 +410,7 @@ class EditarProspectView(CustomUpdateView):
 
             return self.form_valid(form)
 
-        return self.form_invalid(form=form)
+        return self.form_invalid(form=form,form_contato=form_contato)
 
 
 class ContratarProspectView(CustomView):
@@ -444,52 +431,6 @@ class ContratarProspectView(CustomView):
         return redirect(reverse_lazy('vendas:listaprospectview'))
 
 
-class EditarContatoProspectView(CustomUpdateView):
-    model = ContatoProspect
-    form_class = ContatoProspectForm
-    template_name = "vendas/prospect/contatoprospect_edit.html"
-    success_message = "<b>Comentários do Prospect %(id)s </b>editado com sucesso."
-    permission_codename = 'change_contatoprospect'
-
-    def get_success_message(self, cleaned_data):
-        return self.success_message % dict(cleaned_data, id=self.object.pk)
-
-    def get_context_data(self, **kwargs):
-        context = super(EditarContatoProspectView, self).get_context_data(**kwargs)
-        context['prospect'] = ContatoProspect.objects.get(pk=self.kwargs['pk']).prospect
-        return self.view_context(context)
-
-    def view_context(self, context):
-        context['title_complete'] = 'EDITAR COMENTÁRIO DO PROSPECT PROSPECT N°' + str(context['prospect'].pk)
-        context['return_url'] = reverse_lazy('vendas:listacontatoprospectview', kwargs={'pk':context['prospect'].pk})
-        return context
-
-    def get(self, request, *args, **kwargs):
-        self.object = self.get_object()
-
-        if not request.user.is_superuser:
-            return redirect(reverse_lazy('vendas:listacontatoprospectview', kwargs={'pk':self.kwargs['pk']}))
-
-        form = self.get_form(self.form_class)
-
-        return self.render_to_response(self.get_context_data(form=form))
-
-    def post(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        prospect = ContatoProspect.objects.get(pk=self.kwargs['pk']).prospect
-
-        if not request.user.is_superuser:
-            return redirect(reverse_lazy('vendas:listacontatoprospectview', kwargs={'pk':prospect.pk}))
-        
-        form = self.get_form(self.form_class)
-
-        if form.is_valid():
-            self.object = form.save(commit=False)
-            self.object.save() 
-
-            return redirect(reverse_lazy('vendas:listacontatoprospectview', kwargs={'pk':prospect.pk}))
-
-        return self.form_invalid(form=form)
 
 class EditarVendaView(CustomUpdateView):
 
