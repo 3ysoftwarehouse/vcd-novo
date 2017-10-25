@@ -225,6 +225,13 @@ class ProspectListView(CustomListView):
                     prospect = Prospect.objects.get(pk=key[6:])
                     to_email.append(prospect.email)
 
+                    contato = ContatoProspect()
+                    contato.prospect = prospect
+                    contato.tipo_contato = '6'
+                    contato.observacao = 'Email com apresentações enviado pelo sistema.'
+                    contato.emissor = request.user
+                    contato.save()
+
             excursao = Categoria.objects.get(pk=request.POST.get('excursao'))
             pacotes = Produto.objects.filter(categoria=excursao)
             context_email = {}
