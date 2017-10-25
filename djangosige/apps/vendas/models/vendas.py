@@ -525,4 +525,4 @@ class ContatoProspect(models.Model):
         )
 
     def get_message_formated(self):
-        return str(self.emissor.first_name) + ' entrou em contato por ' + str(TIPO_CONTATO[int(self.tipo_contato)][1]) + '. OBS: ' + str(self.observacao) 
+        return str(self.emissor.first_name) + ' entrou em contato por ' + str(TIPO_CONTATO[int(self.tipo_contato)-1][1]) + '. OBS: ' + str(self.observacao) 
