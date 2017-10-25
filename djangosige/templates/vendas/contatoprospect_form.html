@@ -3,26 +3,26 @@
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
           
           <ul class="nav nav-tabs" role="tablist">
-            <li role="presentation" class="active"><a href="#tab_informacoes" data-toggle="tab">INFORMAÇÕES</a></li>
+            <li role="presentation" class="active"><a href="#tab_mensagens" data-toggle="tab">NOVA MENSAGEM</a></li>
           </ul>
       
           <div class="tab-content">
       
             <!-- Tab INFORMAÇÕES -->
-            <div role="tabpanel" class="tab-pane active" id="tab_informacoes">
+            <div role="tabpanel" class="tab-pane active" id="tab_mensagens">
       
               <div class="col-sm-12">
                 <div class="form-group">
                   <div class="form-line">
-                    <label>{{form.tipo_contato.label}}<strong style="color:red;">*</strong></label>
-                    {% if form.tipo_contato.errors %}
+                    <label>{{form_contato.tipo_contato.label}}<strong style="color:red;">*</strong></label>
+                    {% if form_contato.tipo_contato.errors %}
                         <label class="error">
-                            {% for error in form.tipo_contato.errors %}
+                            {% for error in form_contato.tipo_contato.errors %}
                                 {{error}}
                             {% endfor %}
                         </label>
                     {% endif %}
-                    {{form.tipo_contato}}
+                    {{form_contato.tipo_contato}}
                   </div>
                 </div>
               </div>
@@ -30,15 +30,15 @@
               <div class="col-sm-12">
                 <div class="form-group">
                   <div class="form-line">
-                    <label>{{form.observacao.label}}</label>
-                    {% if form.observacao.errors %}
+                    <label>{{form_contato.observacao.label}}</label>
+                    {% if form_contato.observacao.errors %}
                         <label class="error">
-                            {% for error in form.observacao.errors %}
+                            {% for error in form_contato.observacao.errors %}
                                 {{error}}
                             {% endfor %}
                         </label>
                     {% endif %}
-                    {{form.observacao}}
+                    {{form_contato.observacao}}
                   </div>
                 </div>
               </div>
@@ -49,6 +49,6 @@
           </div>
             
         </div>
-        <button class="btn btn-success foot-btn" type="submit"><i class="material-icons">&#xE148;</i><span> SALVAR</span></button>
+        <button class="btn btn-success foot-btn" type="submit"><i class="material-icons">&#xE0B7;</i><span> ENVIAR</span></button>
 </div>
 <!--#Body-->

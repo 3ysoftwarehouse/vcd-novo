@@ -42,7 +42,6 @@
                   <th>Email</th>
                   <th>Telefone</th>
                   <th>Emissor</th>
-                  <th>Comentários</th>
                   <th>Email</th>
                   <th>Remover</th>
                 </tr>
@@ -69,10 +68,6 @@
                           </td>
                           {% endif %}
 
-                          <td>
-                            <a href="{% url 'vendas:listacontatoprospectview' prospect.pk %}">Visualizar</a>
-                          </td>
-
                           {% if prospect.email %}
                             <td class="lista-email">
                                 <input type="checkbox" name="email-{{prospect.pk}}" id="email-entrada-{{prospect.pk}}"/>
@@ -81,10 +76,15 @@
                           {% else %}
                             <td></td>
                           {% endif %}
-                          <td class="lista-remove">
-                              <input type="checkbox" name="remove-{{prospect.pk}}" id="remover-entrada-{{prospect.pk}}"/>
-                              <label class="remove-entry-label" for="remover-entrada-{{prospect.pk}}"></label>
-                          </td>
+
+                          {% if request.user.is_superuser %}
+                            <td class="lista-remove">
+                                <input type="checkbox" name="remove-{{prospect.pk}}" id="remover-entrada-{{prospect.pk}}"/>
+                                <label class="remove-entry-label" for="remover-entrada-{{prospect.pk}}"></label>
+                            </td>
+                          {% else %}
+                            <td></td>
+                          {% endif %}
 
                       </tr>
                     {% endif %}

@@ -14,17 +14,17 @@
               {% if request.user.is_superuser %}
                 <div class="col-sm-12">
                     <div class="form-group">
-                    <div class="form-line">
-                        <label>{{form.emissor.label}}</label>
-                        {% if form.emissor.errors %}
-                            <label class="error">
-                                {% for error in form.emissor.errors %}
-                                    {{error}}
-                                {% endfor %}
-                            </label>
-                        {% endif %}
-                        {{form.emissor}}
-                    </div>
+                        <div class="form-line">
+                            <label>{{form.emissor.label}}</label>
+                            {% if form.emissor.errors %}
+                                <label class="error">
+                                    {% for error in form.emissor.errors %}
+                                        {{error}}
+                                    {% endfor %}
+                                </label>
+                            {% endif %}
+                            {{form.emissor}}
+                        </div>
                     </div>
                 </div>
               {% endif %}
@@ -147,6 +147,8 @@
           </div>
             
         </div>
-        <button class="btn btn-success foot-btn" type="submit"><i class="material-icons">&#xE148;</i><span> SALVAR</span></button>
+        {% if request.user.is_superuser or not editar_view %}
+            <button class="btn btn-success foot-btn" type="submit"><i class="material-icons">&#xE148;</i><span> SALVAR</span></button>
+        {% endif %}
 </div>
 <!--#Body-->
