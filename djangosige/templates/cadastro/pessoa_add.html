@@ -60,10 +60,12 @@
                     {% endif %}
 
                   </div>
-                  <!-- #Tab informacoes do passageiro -->
-
+                  
+                  <!-- #Tab passageiro -->
+                  {% if tipo_pessoa == 'passageiro' %}
                   <div role="tabpanel" class="tab-pane formset-tab" id="tab_inf_passageiro">
-                      <div class="col-sm-6">
+                      
+                    <div class="col-sm-6">
                           <div class="form-group">
                                 <div class="form-line">
                                     <label>{{form.escola_passageiro.label}}</label>
@@ -72,7 +74,218 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                                <div class="form-line">
+                                    <label>{{form.matricula.label}}</label>
+                                    {% if form.matricula.errors %}<label class="error">{% for error in form.matricula.errors %}{{error}}{% endfor %}</label>{% endif %}
+                                    {{form.matricula}}
+                                </div>
+                            </div>
+                        </div>
+
+                      <div class="col-sm-6">
+                          <div class="form-group">
+                                <div class="form-line">
+                                    <label>{{form.nome_mae.label}}</label>
+                                    {% if form.nome_mae.errors %}<label class="error">{% for error in form.nome_mae.errors %}{{error}}{% endfor %}</label>{% endif %}
+                                    {{form.nome_mae}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                                <div class="form-line">
+                                    <label>{{form.nome_pai.label}}</label>
+                                    {% if form.nome_pai.errors %}<label class="error">{% for error in form.nome_pai.errors %}{{error}}{% endfor %}</label>{% endif %}
+                                    {{form.nome_pai}}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                  <div class="form-line">
+                                      <label>{{form.responsavel.label}}</label>
+                                      {% if form.responsavel.errors %}<label class="error">{% for error in form.responsavel.errors %}{{error}}{% endfor %}</label>{% endif %}
+                                      {{form.responsavel}}
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="col-sm-6">
+                            <div class="form-group">
+                                  <div class="form-line">
+                                      <label>{{form.telefone_responsavel.label}}</label>
+                                      {% if form.telefone_responsavel.errors %}<label class="error">{% for error in form.telefone_responsavel.errors %}{{error}}{% endfor %}</label>{% endif %}
+                                      {{form.telefone_responsavel}}
+                                  </div>
+                              </div>
+                          </div>
+
+                          <div class="col-sm-6">
+                              <div class="form-group">
+                                    <div class="form-line">
+                                        <label>{{form.natularidade.label}}</label>
+                                        {% if form.natularidade.errors %}<label class="error">{% for error in form.natularidade.errors %}{{error}}{% endfor %}</label>{% endif %}
+                                        {{form.natularidade}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                              <div class="form-group">
+                                    <div class="form-line">
+                                        <label>{{form.observacao.label}}</label>
+                                        {% if form.observacao.errors %}<label class="error">{% for error in form.observacao.errors %}{{error}}{% endfor %}</label>{% endif %}
+                                        {{form.observacao}}
+                                    </div>
+                                </div>
+                            </div>
+                          
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                      <div class="form-line">
+                                          <label>{{form.numero_passaporte.label}}</label>
+                                          {% if form.numero_passaporte.errors %}<label class="error">{% for error in form.numero_passaporte.errors %}{{error}}{% endfor %}</label>{% endif %}
+                                          {{form.numero_passaporte}}
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="col-sm-6">
+                                <div class="form-group">
+                                      <div class="form-line">
+                                          <label>{{form.data_validade_passaporte.label}}</label>
+                                          {% if form.data_validade_passaporte.errors %}<label class="error">{% for error in form.data_validade_passaporte.errors %}{{error}}{% endfor %}</label>{% endif %}
+                                          {{form.data_validade_passaporte}}
+                                      </div>
+                                  </div>
+                              </div>
+                            
+
                   </div>
+                  {% endif %}
+
+                  <!-- #Tab cliente -->
+                  {% if tipo_pessoa == 'cliente' %}
+                  <div role="tabpanel" class="tab-pane formset-tab" id="tab_inf_cliente">
+                      
+                    
+                      <div class="col-sm-6">
+                          <div class="form-group">
+                                <div class="form-line">
+                                    <label>{{form.nome_mae.label}}</label>
+                                    {% if form.nome_mae.errors %}<label class="error">{% for error in form.nome_mae.errors %}{{error}}{% endfor %}</label>{% endif %}
+                                    {{form.nome_mae}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                                <div class="form-line">
+                                    <label>{{form.nome_pai.label}}</label>
+                                    {% if form.nome_pai.errors %}<label class="error">{% for error in form.nome_pai.errors %}{{error}}{% endfor %}</label>{% endif %}
+                                    {{form.nome_pai}}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                  <div class="form-line">
+                                      <label>{{form.naturalidade.label}}</label>
+                                      {% if form.naturalidade.errors %}<label class="error">{% for error in form.naturalidade.errors %}{{error}}{% endfor %}</label>{% endif %}
+                                      {{form.naturalidade}}
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="col-sm-6">
+                            <div class="form-group">
+                                  <div class="form-line">
+                                      <label>{{form.numero_dependentes.label}}</label>
+                                      {% if form.numero_dependentes.errors %}<label class="error">{% for error in form.numero_dependentes.errors %}{{error}}{% endfor %}</label>{% endif %}
+                                      {{form.numero_dependentes}}
+                                  </div>
+                              </div>
+                          </div>
+
+                          <div class="col-sm-6">
+                              <div class="form-group">
+                                    <div class="form-line">
+                                        <label>{{form.tipo_residencia.label}}</label>
+                                        {% if form.tipo_residencia.errors %}<label class="error">{% for error in form.tipo_residencia.errors %}{{error}}{% endfor %}</label>{% endif %}
+                                        {{form.tipo_residencia}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                              <div class="form-group">
+                                    <div class="form-line">
+                                        <label>{{form.dt_emissao_rg.label}}</label>
+                                        {% if form.dt_emissao_rg.errors %}<label class="error">{% for error in form.dt_emissao_rg.errors %}{{error}}{% endfor %}</label>{% endif %}
+                                        {{form.dt_emissao_rg}}
+                                    </div>
+                                </div>
+                            </div>
+                          
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                      <div class="form-line">
+                                          <label>{{form.tempo_residencia.label}}</label>
+                                          {% if form.tempo_residencia.errors %}<label class="error">{% for error in form.tempo_residencia.errors %}{{error}}{% endfor %}</label>{% endif %}
+                                          {{form.tempo_residencia}}
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="col-sm-6">
+                                <div class="form-group">
+                                      <div class="form-line">
+                                          <label>{{form.dt_admissao.label}}</label>
+                                          {% if form.dt_admissao.errors %}<label class="error">{% for error in form.dt_admissao.errors %}{{error}}{% endfor %}</label>{% endif %}
+                                          {{form.dt_admissao}}
+                                      </div>
+                                  </div>
+                              </div>
+
+                              <div class="col-sm-6">
+                                  <div class="form-group">
+                                        <div class="form-line">
+                                            <label>{{form.cargo.label}}</label>
+                                            {% if form.cargo.errors %}<label class="error">{% for error in form.cargo.errors %}{{error}}{% endfor %}</label>{% endif %}
+                                            {{form.cargo}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                  <div class="form-group">
+                                        <div class="form-line">
+                                            <label>{{form.principal_renda.label}}</label>
+                                            {% if form.principal_renda.errors %}<label class="error">{% for error in form.principal_renda.errors %}{{error}}{% endfor %}</label>{% endif %}
+                                            {{form.principal_renda}}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                          <div class="form-line">
+                                              <label>{{form.outra_renda.label}}</label>
+                                              {% if form.outra_renda.errors %}<label class="error">{% for error in form.outra_renda.errors %}{{error}}{% endfor %}</label>{% endif %}
+                                              {{form.outra_renda}}
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="col-sm-6">
+                                    <div class="form-group">
+                                          <div class="form-line">
+                                              <label>{{form.patrimonio.label}}</label>
+                                              {% if form.patrimonio.errors %}<label class="error">{% for error in form.patrimonio.errors %}{{error}}{% endfor %}</label>{% endif %}
+                                              {{form.patrimonio}}
+                                          </div>
+                                      </div>
+                                  </div>
+                            
+
+                  </div>
+                  {% endif %}
 
                   <!-- #Tab informacoes gerais -->
 
