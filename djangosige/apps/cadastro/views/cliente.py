@@ -47,6 +47,9 @@ class ClientesListView(PessoasListView):
         context['add_url'] = reverse_lazy('cadastro:addclienteview')
         context['tipo_pessoa'] = 'cliente'
         return context
+    
+    def get_queryset(self):
+        return Cliente.objects.filter(emissor=self.request.user)
 
 
 class EditarClienteView(EditarPessoaView):
