@@ -47,6 +47,9 @@ class PassageirosListView(PessoasListView):
         context['add_url'] = reverse_lazy('cadastro:addpassageiroview')
         context['tipo_pessoa'] = 'passageiro'
         return context
+    
+    def get_queryset(self):
+        return Passageiro.objects.filter(emissor=self.request.user)
 
 
 class EditarPassageiroView(EditarPessoaView):
