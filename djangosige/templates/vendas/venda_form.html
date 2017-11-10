@@ -451,9 +451,7 @@
           </div>
         </div>
 
-        <!--
-          {% include 'formset/formset_tr_field.html' with formset=pagamento_form table_class='pagamentos_table' %}
-        -->
+        {% include 'formset/formset_tr_field.html' with formset=pagamento_form table_class='pagamentos_table' %}
 
         {% if venda_id %}
           {% include 'vendas/table_pagamentos.html' %} 

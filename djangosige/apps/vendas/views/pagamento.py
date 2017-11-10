@@ -84,14 +84,19 @@ class AdicionarPagamento(View):
         if form.is_valid():
             try:
                 venda = Venda.objects.get(pk=pk)
+                pagamentos = Pagamento.objects.filter(venda_id=venda)
 
                 pagamento = form.save(commit=False)
                 pagamento.venda_id = venda
                 pagamento.save()
 
+                valor_restante = venda.valor_total
+                for pagamento in pagamentos:
+                    valor_restante -= pagamento.valor_parcela
+
                 data['status'] = 200
                 data['message'] = 'success'
-                data['venda'] = venda.valor_total - pagamento.valor_parcela
+                data['venda'] = valor_restante
                 data['pagamento'] = {
                     'indice_parcela':pagamento.indice_parcela, 
                     'forma':pagamento.forma, 
@@ -108,6 +113,7 @@ class AdicionarPagamento(View):
             data['status'] = 501
             data['message'] = 'Formulário inválido'
 
+        
         return JsonResponse(data)
 
 
