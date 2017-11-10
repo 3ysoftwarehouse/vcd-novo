@@ -1,0 +1,67 @@
+<!-- Modal Pagamento -->
+<div id="modal-pagamento" class="modal fade modal-msg">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Pagamento</h4>
+        </div>
+        <form id="pagamento_form" role="form" action="{% url 'vendas:cadastrarpagamento' venda_id %}" method="post">
+            {% csrf_token %}
+            <div class="modal-body">
+            <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <label>{{pagamento_form.forma.label}}</label>
+                                    {{pagamento_form.forma}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <label>{{pagamento_form.valor_parcela.label}}</label>
+                                    {{pagamento_form.valor_parcela}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <label>{{pagamento_form.vencimento.label}}</label>
+                                    {{pagamento_form.vencimento}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <label>{{pagamento_form.indice_parcela.label}}</label>
+                                    {{pagamento_form.indice_parcela}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>  
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <label>{{pagamento_form.observacao.label}}</label>
+                                    {{pagamento_form.observacao}}
+                                </div>
+                            </div>
+                        </div>             
+                    </div>
+            </div>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">FECHAR</button>
+            <button type="submit" class="btn btn-primary" id="salvar_pagamento">SALVAR</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!-- #Modal Pagamento -->

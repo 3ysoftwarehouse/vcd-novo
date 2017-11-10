@@ -7,7 +7,7 @@ from django.http import HttpResponse
 
 from djangosige.apps.base.custom_views import CustomView, CustomCreateView, CustomListView, CustomUpdateView
 
-from djangosige.apps.vendas.forms import OrcamentoVendaForm, PedidoVendaForm, ItensVendaFormSet, PagamentoFormSet, ProspectForm, ContatoProspectForm
+from djangosige.apps.vendas.forms import OrcamentoVendaForm, PedidoVendaForm, ItensVendaFormSet, PagamentoFormSet, ProspectForm, ContatoProspectForm, PagamentoForm
 from djangosige.apps.vendas.models import OrcamentoVenda, PedidoVenda, ItensVenda, Pagamento, Prospect, ContatoProspect
 from djangosige.apps.cadastro.models import MinhaEmpresa, Cliente, Categoria, Produto
 from djangosige.apps.login.models import Usuario
@@ -525,6 +525,9 @@ class EditarOrcamentoVendaView(EditarVendaView):
         context['title_complete'] = 'EDITAR ORÇAMENTO DE VENDA N°' + \
             str(self.object.id)
         context['return_url'] = reverse_lazy('vendas:listaorcamentovendaview')
+        context['pagamento_form'] = PagamentoForm()
+        context['pagamentos'] = Pagamento.objects.filter(venda_id=self.object.id)
+        context['venda_id'] = self.object.id
         return context
 
     def get(self, request, *args, **kwargs):
@@ -550,6 +553,9 @@ class EditarPedidoVendaView(EditarVendaView):
         context['title_complete'] = 'EDITAR PEDIDO DE VENDA N°' + \
             str(self.object.id)
         context['return_url'] = reverse_lazy('vendas:listapedidovendaview')
+        context['pagamento_form'] = PagamentoForm()
+        context['pagamentos'] = Pagamento.objects.filter(venda_id=self.object.id)
+        context['venda_id'] = self.object.id
         return context
 
     def get(self, request, *args, **kwargs):

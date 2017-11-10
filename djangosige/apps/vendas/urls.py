@@ -93,4 +93,10 @@ urlpatterns = [
     # Cancelar Pedido de venda
     url(r'cancelarpedidovenda/(?P<pk>[0-9]+)/$',
         views.CancelarPedidoVendaView.as_view(), name='cancelarpedidovenda'),
+    # Cadastrar Pagamento
+    url(r'cadastrarpagamento/(?P<pk>[0-9]+)/$',
+        views.AdicionarPagamento.as_view(), name='cadastrarpagamento'),   
+    # Remover Pagamento
+    url(r'removerpagamento/(?P<pk>[0-9]+)/$',
+        views.RemoverPagamento.as_view(), name='removerpagamento'), 
 ]
