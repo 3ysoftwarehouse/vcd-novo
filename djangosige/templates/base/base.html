@@ -122,7 +122,6 @@
                             <span>Página Inicial</span>
                         </a>
                     </li>
-{%if request.user.is_superuser %}
                     <li>
                         <a href="javascript:void(0);" class="menu-toggle">
                             <i class="material-icons">&#xE85D;</i>
@@ -139,6 +138,8 @@
                                     Passageiros
                                 </a>
                             </li>
+{%if request.user.is_superuser %}
+
                             <li>
                                 <a href="{% url 'cadastro:listafornecedoresview' %}">
                                     Fornecedores
@@ -193,10 +194,11 @@
                                     </li>
                                 </ul>
                             </li>
+                        {%endif%}
 
                         </ul>
+
                     </li>
-{%endif%}
                     <li>
                         <a href="javascript:void(0);" class="menu-toggle">
                             <i class="material-icons">&#xE54E;</i>

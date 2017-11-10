@@ -228,7 +228,7 @@ class ItensVendaForm(forms.ModelForm):
 
     class Meta:
         model = ItensVenda
-        fields = ('produto', 'quantidade', 'valor_unit', 'tipo_desconto', 'desconto', 'valor_rateio_frete', 'valor_rateio_despesas', 'valor_rateio_seguro',
+        fields = ('produto', 'quantidade','valor_unit', 'tipo_desconto', 'desconto', 'valor_rateio_frete', 'valor_rateio_despesas', 'valor_rateio_seguro',
                   'vbc_icms', 'vbc_icms_st', 'vbc_ipi',
                   'subtotal', 'vicms', 'vicms_st', 'vipi', 'p_icms', 'p_ipi', 'p_icmsst', 'vfcp', 'vicmsufdest', 'vicmsufremet',
                   'ipi_incluido_preco', 'icms_incluido_preco', 'icmsst_incluido_preco', 'incluir_bc_icms', 'incluir_bc_icmsst', 'auto_calcular_impostos',)
@@ -241,9 +241,9 @@ class ItensVendaForm(forms.ModelForm):
             'tipo_desconto': forms.Select(attrs={'class': 'form-control'}),
             'desconto': forms.TextInput(attrs={'class': 'form-control decimal-mask'}),
 
-            'valor_rateio_frete': forms.TextInput(attrs={'class': 'form-control decimal-mask'}),
-            'valor_rateio_despesas': forms.TextInput(attrs={'class': 'form-control decimal-mask'}),
-            'valor_rateio_seguro': forms.TextInput(attrs={'class': 'form-control decimal-mask'}),
+            'valor_rateio_frete': forms.TextInput(attrs={'class': 'form-control decimal-mask','style':'display: none;'}),
+            'valor_rateio_despesas': forms.TextInput(attrs={'class': 'form-control decimal-mask','style':'display: none;'}),
+            'valor_rateio_seguro': forms.TextInput(attrs={'class': 'form-control decimal-mask','style':'display: none;'}),
 
             'vbc_icms': forms.TextInput(attrs={'class': 'modal-field'}),
             'vbc_icms_st': forms.TextInput(attrs={'class': 'modal-field'}),

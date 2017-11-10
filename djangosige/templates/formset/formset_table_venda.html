@@ -1,0 +1,117 @@
+<div class="formset-box">
+
+  {% for form in formset %}
+  <div id="{{formset.prefix}}-{{forloop.counter0}}" class="formset" style="overflow-x: scroll;">
+
+    <table class="table table-responsive table-bordered table-striped form-table">
+      <thead>
+        <tr>
+
+          <th>Produto</th>
+
+          <th>Quantidade</th>
+
+          <th>Vl. Unit.</th>
+
+          <th>Tipo de desconto</th>
+
+          <th>Desconto (% ou R$)</th>
+
+          <th style="display: none;>Frete(R$)</th>
+
+          <th style="display: none;>Despesas(R$)</th>
+
+          <th style="display: none;>Seguro(R$)</th>
+
+          <th style="display: none;">Vbc icms</th>
+
+          <th style="display: none;">Vbc icms st</th>
+
+          <th style="display: none;">Vbc ipi</th>
+
+          <th>Subtotal</th>
+
+          <th style="display: none;">Vicms</th>
+
+          <th style="display: none;">Vicms st</th>
+
+          <th style="display: none;">Vipi</th>
+
+          <th style="display: none;">P icms</th>
+
+          <th style="display: none;">P ipi</th>
+
+          <th style="display: none;">P icmsst</th>
+
+          <th style="display: none;">Vfcp</th>
+
+          <th style="display: none;">Vicmsufdest</th>
+
+          <th style="display: none;">Vicmsufremet</th>
+
+          <th style="display: none;">Ipi incluido preco</th>
+
+          <th style="display: none;">Icms incluido preco</th>
+
+          <th style="display: none;">Icmsst incluido preco</th>
+
+          <th style="display: none;">Incluir bc icms</th>
+
+          <th style="display: none;">Incluir bc icmsst</th>
+
+          <th style="display: none;">Auto calcular impostos</th>
+
+          <th>Subtotal s/ desconto</th>
+
+          <th style="display: none;>Impostos</th>
+
+          <th>Total</th>
+
+          <th style="display: none;>Cálc. Impostos</th>
+
+          <th style="display: none;">P red bc</th>
+
+          <th style="display: none;">P red bcst</th>
+
+          <th style="display: none;">P mvast</th>
+
+          <th style="display: none;">Pfcp</th>
+
+          <th style="display: none;">P icms dest</th>
+
+          <th style="display: none;">P icms inter</th>
+
+          <th style="display: none;">P icms part</th>
+
+          <th style="display: none;">Tipo ipi</th>
+
+          <th style="display: none;">Vfixo ipi</th>
+
+          <th style="display: none;">Apagar</th>
+
+          <th><a class="remove-formset"></a></th>
+        </tr>
+      </thead>
+
+      <tbody>
+       <tr>
+          {% for field in form.visible_fields %}
+          <td class="field-td">{{field}}</td>
+          {% endfor %}
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+
+    {{ form.id }}
+
+    <div class="col-sm-12">
+      <a class="btn btn-xs add-formset" style="margin-bottom: 0px;">Adicionar novo</a>
+    </div>
+  </div>
+
+  {% endfor %}
+
+  {{formset.management_form}}
+
+</div>

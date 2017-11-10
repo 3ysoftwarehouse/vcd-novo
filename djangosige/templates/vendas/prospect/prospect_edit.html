@@ -2,6 +2,7 @@
 
 {%block title%}{{title_complete|title}}{%endblock%}
 {%block content%}
+{% load humanize %}
 <section class="content">
   <div class="container-fluid">
 
@@ -36,7 +37,7 @@
                   {% for contato in contatos %}
                   <div class="col-sm-12">
                     <div style="color:#c1c1c1;margin-left:10%;">
-                      <b>{{contato.get_message_formated}}</b>
+                      <b>{{ contato.data|naturaltime }} - {{contato.get_message_formated}}</b>
                     </div>
                   </div>
                   {% endfor %}

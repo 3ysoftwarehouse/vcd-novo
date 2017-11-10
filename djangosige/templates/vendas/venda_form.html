@@ -308,7 +308,7 @@
           </div>
         </div>
 
-        <div class="col-sm-2">
+        <div class="col-sm-3">
           <div class="form-group">
             <div class="form-line">
               <label {% for error in form.desconto.errors %}title="{{error}}"{% endfor %}>{{form.desconto.label}}</label>
@@ -317,7 +317,15 @@
             </div>
           </div>
         </div>
-
+<div class="col-sm-4">
+            <div class="form-group">
+              <div class="form-line">
+                <label {% for error in form.valor_total.errors %}title="{{error}}"{% endfor %}>{{form.valor_total.label}}</label>
+                {% if form.valor_total.errors %}<label class="error"></label>{% endif %}
+                {{form.valor_total}}
+              </div>
+            </div>
+          </div>
         <div class="col-sm-2" style="display: None">
           <div class="form-group">
             <div class="form-line">
@@ -328,7 +336,7 @@
           </div>
         </div>
 
-        <div class="col-sm-2">
+        <div class="col-sm-2" style="display: None">
           <div class="form-group">
             <div class="form-line">
               <label {% for error in form.despesas.errors %}title="{{error}}"{% endfor %}>{{form.despesas.label}}</label>
@@ -356,7 +364,7 @@
           <!--</div>-->
         <!--</div>-->
 
-        <div class="col-sm-12" style="padding:0px;">
+        <div class="col-sm-12" style="display: None">
 
           <div class="col-sm-4">
             <div class="form-group">
@@ -368,7 +376,7 @@
             </div>
           </div>
 
-          <div class="col-sm-4">
+          <div class="col-sm-4" style="display: None">
             <div class="form-group">
               <div class="form-line">
                 <label {% for error in form.total_sem_imposto.errors %}title="{{error}}"{% endfor %}>{{form.total_sem_imposto.label}}</label>
@@ -378,15 +386,7 @@
             </div>
           </div>
 
-          <div class="col-sm-4">
-            <div class="form-group">
-              <div class="form-line">
-                <label {% for error in form.valor_total.errors %}title="{{error}}"{% endfor %}>{{form.valor_total.label}}</label>
-                {% if form.valor_total.errors %}<label class="error"></label>{% endif %}
-                {{form.valor_total}}
-              </div>
-            </div>
-          </div>
+
 </div>
         </div>
 
@@ -394,7 +394,7 @@
           
         <h4 style="border-bottom: 1px solid #afabab;">Opcionais</h4>
 
-        {% include 'formset/formset_table.html' with formset=produtos_form title='Itens' %}
+        {% include 'formset/formset_table_venda.html' with formset=produtos_form title='Itens' %}
 
         </div>
 
