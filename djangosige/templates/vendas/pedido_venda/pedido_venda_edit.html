@@ -55,55 +55,49 @@
 {% endblock %}
 
 {% block js %}
-  {% include 'vendas/venda_jsblock.html' %}
-  <script>
-    $("#btn-modal-pagamento").click(function() {
-      $("#modal-pagamento").modal('show');
-    });
-    $('#pagamento_form').submit(function(event) {
-      event.defaultPrevented();
-      var form = $(this);
-      $.ajax({
-        type: form.attr('method'),
-        url: form.attr('action'),
-        data: form.serialize(),
-        success: function(data){
-          if(data.status == '200'){
-            var venda = data.venda;
-            var pagamento = data.pagamento;
-            var html = '<tr>'
-                html += '<td>'+pagamento.id+'</td>';
-                html += '<td>'+pagamento.forma+'</td>';
-                html += '<td>'+pagamento.valor_parcela+'</td>';
-                html += '<td>'+pagamento.vencimento+'</td>';
-                html += '<td>'+pagamento.indice_parcela+'</td>';
-              html += '</tr>';
+{% include 'vendas/venda_jsblock.html' %}
+<script>
+  $("#btn-modal-pagamento").click(function() {
+    $("#modal-pagamento").modal('show');
+  });
+  $('#pagamento_form').submit(function(event) {
+    event.preventDefault();
+    var form = $(this);
+    $.ajax({
+      type: form.attr('method'),
+      url: form.attr('action'),
+      data: form.serialize(),
+      success: function(data){
+        if(data.status == '200'){
+          var venda = data.venda;
+          var pagamento = data.pagamento;
 
-            $('#pagamento_form')[0].reset();
-            $("#modal-pagamento").modal('hide');
-            if(venda > 0){
-              $('#pagamento_form input[name=valor_parcela]').val(venda);
-              $("#modal-pagamento").modal('show');
-            }
+          $('#pagamento_form')[0].reset();
+          $("#modal-pagamento").modal('hide');
+          dTable.row.add([  pagamento.id, pagamento.forma, pagamento.valor_parcela, pagamento.vencimento, pagamento.indice_parcela ]).draw();
+          if(venda > 0){
+            $('#pagamento_form input[name=valor_parcela]').val(venda);
+            setTimeout(function(){ $("#modal-pagamento").modal('show'); }, 3000);
           }
-        },
-        error: function (data) {
-          console.log(data);
         }
-      });
+      },
+      error: function (data) {
+        console.log(data);
+      }
     });
-    $(".remover_pagamento").click(function(event){
-      event.defaultPrevented();
-      var url = $(this).attr('href');
-      $.ajax({
-        type: 'GET',
-        url: url,
-        success: function(data){
-          if(data.status == '200'){
-            $(this).closest( "tr" ).remove();
-          }
-        },
-      });
+  });
+  $(".remover_pagamento").click(function(event){
+    event.defaultPrevented();
+    var url = $(this).attr('href');
+    $.ajax({
+      type: 'GET',
+      url: url,
+      success: function(data){
+        if(data.status == '200'){
+          $(this).closest( "tr" ).remove();
+        }
+      },
     });
-  </script>
+  });
+</script>
 {% endblock %}

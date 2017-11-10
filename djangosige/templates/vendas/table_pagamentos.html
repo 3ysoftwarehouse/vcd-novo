@@ -16,7 +16,7 @@
           <td>{{pagamento.id}}</td>
           <td><b>{{pagamento.forma}}</b></td>
           <td>{{pagamento.valor_parcela}}</td>
-          <td>{{pagamento.vencimento}}</td>
+          <td>{{pagamento.vencimento|date:'Y-m-d'}}</td>
           <td>{{pagamento.indice_parcela}}</td>
         </tr>
       {% endfor %}
