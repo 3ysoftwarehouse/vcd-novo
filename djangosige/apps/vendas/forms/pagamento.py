@@ -15,16 +15,20 @@ class PagamentoForm(forms.ModelForm):
 
     class Meta:
         model = Pagamento
-        fields = ('indice_parcela', 'vencimento', 'valor_parcela',)
+        fields = ('indice_parcela', 'vencimento', 'valor_parcela', 'forma', 'observacao')
         widgets = {
-            'indice_parcela': forms.TextInput(attrs={'class': 'form-control', 'readonly': True}),
+            'indice_parcela': forms.TextInput(attrs={'class': 'form-control'}),
             'vencimento': forms.DateInput(attrs={'class': 'form-control datepicker'}),
             'valor_parcela': forms.TextInput(attrs={'class': 'form-control decimal-mask'}),
+            'forma': forms.Select(attrs={'class': 'form-control'}),
+            'observacao': forms.TextInput(attrs={'class': 'form-control'}),
         }
         labels = {
             'indice_parcela': _('Ind. Parcela'),
             'vencimento': _('Vencimento'),
             'valor_parcela': _('Valor'),
+            'forma': _('Forma de pagamento'),
+            'observacao': _('Observação'),
         }
 
 

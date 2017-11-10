@@ -406,6 +406,12 @@
       <!-- Tab PAGAMENTO -->
       <div role="tabpanel" class="tab-pane" id="tab_pagamento">
 
+        {% if venda_id %}
+          <div class="col-sm-12" style="margin-bottom:10px;">
+              <a id="btn-modal-pagamento" class="btn btn-primary" style="margin-top: 25px;">Adicionar pagamento</a>
+          </div>
+        {% endif %}
+
         <div class="col-sm-3">
           <div class="form-group">
             <label>{{form.cond_pagamento.label}}</label>
@@ -445,7 +451,13 @@
           </div>
         </div>
 
-        {% include 'formset/formset_tr_field.html' with formset=pagamento_form table_class='pagamentos_table' %}
+        <!--
+          {% include 'formset/formset_tr_field.html' with formset=pagamento_form table_class='pagamentos_table' %}
+        -->
+
+        {% if venda_id %}
+          {% include 'vendas/table_pagamentos.html' %} 
+        {% endif %}
 
       </div>
        <!--Tab PAGAMENTO-->

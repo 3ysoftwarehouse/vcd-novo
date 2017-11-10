@@ -7,8 +7,10 @@ from django.core import serializers
 
 from djangosige.apps.base.custom_views import CustomCreateView, CustomListView, CustomUpdateView
 
-from djangosige.apps.vendas.forms import CondicaoPagamentoForm
-from djangosige.apps.vendas.models import CondicaoPagamento
+from djangosige.apps.vendas.forms import CondicaoPagamentoForm, PagamentoForm
+from djangosige.apps.vendas.models import CondicaoPagamento, Pagamento, Venda
+
+from django.http import JsonResponse
 
 
 class AdicionarCondicaoPagamentoView(CustomCreateView):
@@ -71,3 +73,57 @@ class InfoCondicaoPagamento(View):
         data = serializers.serialize('json', [pag, ], fields=(
             'n_parcelas', 'parcela_inicial', 'dias_recorrencia'))
         return HttpResponse(data, content_type='application/json')
+
+
+class AdicionarPagamento(View):
+
+    def post(self, request, pk=None, *args, **kwargs):
+        data = {}
+        
+        form = PagamentoForm(request.POST)
+        if form.is_valid():
+            try:
+                venda = Venda.objects.get(pk=pk)
+
+                pagamento = form.save(commit=False)
+                pagamento.venda_id = venda
+                pagamento.save()
+
+                data['status'] = 200
+                data['message'] = 'success'
+                data['venda'] = venda.valor_total - pagamento.valor_parcela
+                data['pagamento'] = {
+                    'indice_parcela':pagamento.indice_parcela, 
+                    'forma':pagamento.forma, 
+                    'vencimento':pagamento.vencimento, 
+                    'valor_parcela':pagamento.valor_parcela, 
+                    'observacao':pagamento.observacao, 
+                    'id':pagamento.id
+                }
+                    
+            except:
+                data['status'] = 500
+                data['message'] = 'error'
+        else:
+            data['status'] = 501
+            data['message'] = 'Formulário inválido'
+
+        return JsonResponse(data)
+
+
+class RemoverPagamento(View):
+
+    def get(self, request, pk=None, *args, **kwargs):
+        data = {}
+
+        try:
+            pagamento = Pagamento.objects.get(pk=pk)
+            pagamento.delete()
+
+            data['status'] = 200
+            data['message'] = 'success'
+        except:
+            data['status'] = 500
+            data['message'] = 'error'
+        
+        return JsonResponse(data)

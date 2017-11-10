@@ -1,0 +1,26 @@
+<h4 style="border-bottom: 1px solid #afabab;">Lista de Pagamentos</h4><br/>
+<table id="lista-database" class="table table-bordered table-striped lista-table">
+    <thead>
+      <tr>
+        <th>#ID</th>                   
+        <th>Forma</th>
+        <th>Valor</th>
+        <th>Data de vencimento</th>
+        <th>Indice</th>
+      </tr>
+    </thead>
+    <tbody id="body_table_pagamentos">
+    {% if pagamentos %}
+      {% for pagamento in pagamentos %}
+        <tr>
+          <td>{{pagamento.id}}</td>
+          <td><b>{{pagamento.forma}}</b></td>
+          <td>{{pagamento.valor_parcela}}</td>
+          <td>{{pagamento.vencimento}}</td>
+          <td>{{pagamento.indice_parcela}}</td>
+        </tr>
+      {% endfor %}
+    {%else%}
+    {%endif%}
+  </tbody>
+</table>
